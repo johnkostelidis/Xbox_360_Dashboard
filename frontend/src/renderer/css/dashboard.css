@@ -1,0 +1,659 @@
+/* ===================================================
+   Xbox 360 Metro Dashboard - Main Stylesheet
+   Faithful recreation of the NXE (New Xbox Experience)
+   =================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600&display=swap');
+
+:root {
+  --xbox-green:       #52b043;
+  --xbox-green-dark:  #3a7d2e;
+  --xbox-green-light: #6ec95e;
+  --xbox-bg:          #1c1c1c;
+  --xbox-bg2:         #242424;
+  --xbox-gray:        #2e2e2e;
+  --xbox-gray-light:  #3f3f3f;
+  --tile-shadow:      0 4px 24px rgba(0,0,0,0.7);
+  --focus-outline:    2px solid rgba(255,255,255,0.85);
+  --text-primary:     #ffffff;
+  --text-dim:         rgba(255,255,255,0.55);
+  --font-main:        'Segoe UI', 'Arial', sans-serif;
+  --transition:       0.12s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: var(--xbox-bg);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  font-weight: 300;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ─── Status Bar ──────────────────────────────── */
+.status-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px 0 14px;
+  z-index: 100;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.55), transparent);
+}
+
+.search-btn {
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 3px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity var(--transition);
+}
+.search-btn:hover { opacity: 1; }
+
+.status-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+.gamerscore {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.score-value { font-size: 15px; font-weight: 600; }
+.gamerscore-icon {
+  width: 20px; height: 20px;
+  background: var(--xbox-green);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700;
+  color: white;
+}
+
+.avatar-container { display: flex; align-items: center; }
+.avatar-bubble {
+  width: 40px; height: 40px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 2px solid rgba(255,255,255,0.2);
+  background: #2d5a27;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ─── Navigation Tabs ─────────────────────────── */
+.nav-tabs {
+  position: fixed;
+  top: 52px; left: 0; right: 0;
+  z-index: 90;
+  padding: 0 0 0 60px;
+}
+
+.nav-tabs ul {
+  display: flex;
+  list-style: none;
+  gap: 0;
+}
+
+.nav-item {
+  padding: 10px 22px;
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--text-dim);
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  transition: color var(--transition);
+  position: relative;
+}
+
+.nav-item:hover { color: rgba(255,255,255,0.8); }
+
+.nav-item.active {
+  color: var(--text-primary);
+  font-weight: 400;
+}
+
+.nav-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 22px; right: 22px;
+  height: 2px;
+  background: var(--xbox-green);
+  border-radius: 1px;
+}
+
+/* ─── Dashboard Content Area ──────────────────── */
+.dashboard-content {
+  position: absolute;
+  top: 108px; left: 0; right: 0; bottom: 44px;
+  overflow: hidden;
+}
+
+/* ─── Tab Panels ──────────────────────────────── */
+.tab-panel {
+  display: none;
+  width: 100%; height: 100%;
+  padding: 0 60px;
+  animation: fadeSlideIn 0.2s ease;
+}
+.tab-panel.active { display: block; }
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ─── Metro Grid (Home Tab) ───────────────────── */
+.metro-grid {
+  display: grid;
+  grid-template-columns: 240px 1fr 280px;
+  grid-template-rows: 200px 210px;
+  gap: 8px;
+  height: 100%;
+  align-content: center;
+  padding-top: 10px;
+}
+
+/* ─── Metro Tiles ─────────────────────────────── */
+.metro-tile {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: filter var(--transition), transform 0.1s ease;
+  outline: none;
+}
+
+.metro-tile:focus,
+.metro-tile.focused {
+  outline: var(--focus-outline);
+  outline-offset: 2px;
+  filter: brightness(1.12);
+  transform: scale(1.018);
+  z-index: 10;
+}
+
+.metro-tile:active { transform: scale(0.98); }
+
+/* Close Tray */
+.tile-close-tray {
+  background: var(--xbox-green);
+  grid-column: 1; grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.tile-close-tray .tile-icon { opacity: 0.95; }
+.tile-close-tray .tile-label {
+  font-size: 18px;
+  font-weight: 400;
+  color: white;
+  letter-spacing: 0.02em;
+}
+
+/* Quickplay */
+.tile-quickplay {
+  background: var(--xbox-green-dark);
+  grid-column: 1; grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  gap: 6px;
+}
+.tile-icon-sm { opacity: 0.8; }
+.quickplay-games {
+  display: flex;
+  flex: 1;
+  gap: 6px;
+  align-items: center;
+}
+.qp-game-slot {
+  flex: 1;
+  height: 80px;
+  background: rgba(0,0,0,0.3);
+  border: 1px dashed rgba(255,255,255,0.15);
+  border-radius: 2px;
+}
+.tile-quickplay .tile-label {
+  font-size: 18px;
+  font-weight: 400;
+  color: white;
+}
+
+/* Spotlight / Featured */
+.tile-spotlight {
+  grid-column: 2; grid-row: 1 / 3;
+  background: linear-gradient(135deg, #1a3a1a 0%, #0d200d 50%, #0a1a0a 100%);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.spotlight-bg {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.spotlight-crowd {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 50%;
+  background:
+    radial-gradient(ellipse 80% 40% at 50% 110%, rgba(82,176,67,0.15) 0%, transparent 70%);
+}
+
+/* Simulated crowd silhouettes */
+.spotlight-crowd::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 60%;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 6px,
+    rgba(255,255,255,0.04) 6px,
+    rgba(255,255,255,0.04) 8px
+  );
+  mask-image: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+}
+
+.xbox-sphere {
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 0 30px rgba(82,176,67,0.3));
+}
+.sphere-glow {
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle, rgba(82,176,67,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.xbox-logo-svg { display: block; }
+
+.spotlight-text {
+  padding: 14px 18px 8px;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+}
+.spotlight-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: white;
+  line-height: 1.2;
+}
+.spotlight-sub {
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+  margin-top: 3px;
+}
+
+.spotlight-dots {
+  display: flex;
+  gap: 6px;
+  padding: 8px 18px 12px;
+}
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  transition: background 0.2s;
+}
+.dot.active { background: white; }
+
+/* Xbox Canada */
+.tile-xbox-canada {
+  grid-column: 3; grid-row: 1;
+  background: linear-gradient(135deg, #1a5c1a, #0d3a0d);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.canada-header {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+.xbox-label {
+  font-size: 13px;
+  color: rgba(255,255,255,0.75);
+  font-weight: 300;
+}
+.canada-text {
+  font-size: 36px;
+  font-weight: 600;
+  color: white;
+  letter-spacing: -0.02em;
+}
+.canada-leaf {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  align-self: flex-end;
+}
+.tile-label-sm {
+  font-size: 15px;
+  color: white;
+  opacity: 0.85;
+  margin-top: auto;
+}
+
+/* Advertisement */
+.tile-ad {
+  grid-column: 3; grid-row: 2;
+  background: linear-gradient(135deg, #2a5a1a, #1a3a0a);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+.ad-content { flex: 1; position: relative; }
+.ad-headline {
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  line-height: 1.2;
+}
+.ad-cta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.75);
+}
+
+.ad-image {
+  position: absolute;
+  right: 0; bottom: 0;
+}
+.laptop-mockup {
+  width: 90px;
+}
+.laptop-screen {
+  width: 90px; height: 60px;
+  background: #1a1a2e;
+  border-radius: 4px 4px 0 0;
+  border: 2px solid #555;
+  overflow: hidden;
+  padding: 4px;
+}
+.screen-content {
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #3a3a6a, #2a4a8a);
+  border-radius: 2px;
+}
+.laptop-base {
+  width: 100px; height: 6px;
+  background: #666;
+  border-radius: 0 0 3px 3px;
+  margin-left: -5px;
+}
+
+.ad-branding {
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  margin-top: 4px;
+  font-weight: 400;
+}
+.ad-label {
+  font-size: 9px;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ─── Side Panel ──────────────────────────────── */
+.side-panel {
+  position: fixed;
+  right: 0; top: 108px; bottom: 44px;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 3px;
+  padding: 0;
+  z-index: 50;
+}
+
+.side-item {
+  background: var(--xbox-green);
+  color: white;
+  font-size: 15px;
+  font-weight: 400;
+  padding: 16px 10px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 2px 0 0 2px;
+  transition: filter var(--transition), transform var(--transition);
+  outline: none;
+  writing-mode: horizontal-tb;
+}
+
+.side-item:focus,
+.side-item.focused {
+  filter: brightness(1.2);
+  transform: translateX(-4px);
+  outline: var(--focus-outline);
+}
+
+/* ─── Games Grid ──────────────────────────────── */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+  overflow-y: auto;
+  height: 100%;
+  padding-bottom: 20px;
+}
+
+.no-games-msg {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  height: 300px;
+  color: var(--text-dim);
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.no-games-icon { opacity: 0.4; }
+
+.game-tile {
+  aspect-ratio: 1;
+  background: var(--xbox-gray);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 10px;
+  transition: transform 0.1s, filter 0.1s;
+  outline: none;
+}
+.game-tile:focus, .game-tile.focused {
+  outline: var(--focus-outline);
+  transform: scale(1.04);
+  filter: brightness(1.1);
+}
+.game-cover {
+  width: 80%; aspect-ratio: 1;
+  background: var(--xbox-gray-light);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.game-cover img { width: 100%; height: 100%; object-fit: cover; }
+.game-title {
+  font-size: 12px;
+  color: white;
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* ─── Social / Friends ────────────────────────── */
+.social-panel, .settings-panel {
+  padding-top: 10px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.panel-heading {
+  font-size: 26px;
+  font-weight: 300;
+  color: var(--xbox-green-light);
+  margin-bottom: 20px;
+  letter-spacing: 0.02em;
+}
+
+.friends-list { display: flex; flex-direction: column; gap: 6px; }
+
+.friend-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: var(--xbox-gray);
+  border-radius: 2px;
+  border-left: 3px solid transparent;
+}
+.friend-item.online  { border-left-color: var(--xbox-green); }
+.friend-item.offline { border-left-color: #555; }
+
+.friend-avatar {
+  width: 44px; height: 44px;
+  border-radius: 3px;
+  background: var(--xbox-gray-light);
+}
+.friend-name { font-size: 16px; font-weight: 400; }
+.friend-status { font-size: 13px; color: var(--text-dim); }
+
+/* ─── Settings ────────────────────────────────── */
+.settings-list { display: flex; flex-direction: column; gap: 4px; }
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  background: var(--xbox-gray);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+  outline: none;
+}
+.setting-item:focus, .setting-item.focused {
+  background: var(--xbox-gray-light);
+  transform: translateX(4px);
+  outline: none;
+  border-left: 3px solid var(--xbox-green);
+}
+.setting-label { flex: 1; font-size: 17px; font-weight: 400; }
+.setting-arrow { font-size: 22px; color: var(--text-dim); }
+
+/* ─── Coming Soon Panels ──────────────────────── */
+.coming-soon-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 12px;
+  color: var(--text-dim);
+  text-align: center;
+}
+.cs-icon { opacity: 0.35; margin-bottom: 8px; }
+.coming-soon-panel p { font-size: 32px; font-weight: 300; color: rgba(255,255,255,0.5); }
+.coming-soon-panel span { font-size: 14px; color: var(--text-dim); }
+
+/* ─── Controller Hints ────────────────────────── */
+.controller-hints {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 44px;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 20px;
+  backdrop-filter: blur(4px);
+}
+
+.hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.75);
+}
+
+.btn-circle {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+.btn-a { background: #52b043; }
+.btn-b { background: #d33; }
+.btn-x { background: #1a78c2; }
+.btn-y { background: #f5a623; }
+
+/* ─── Toast Notification ──────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 60px; left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(30,30,30,0.95);
+  border: 1px solid var(--xbox-green);
+  color: white;
+  padding: 10px 22px;
+  border-radius: 3px;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 200;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ─── Scrollbar ───────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.35); }
+
+/* ─── Focusable Base ──────────────────────────── */
+.focusable { outline: none; cursor: pointer; }

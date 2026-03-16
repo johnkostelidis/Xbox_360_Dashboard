@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Xbox 360 Dashboard</title>
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+<body>
+
+  <!-- Top Status Bar -->
+  <div class="status-bar">
+    <div class="status-left">
+      <div class="search-btn" id="searchBtn">
+        <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="11" cy="11" r="7" stroke="white" stroke-width="2" fill="none"/><line x1="16.5" y1="16.5" x2="22" y2="22" stroke="white" stroke-width="2"/></svg>
+      </div>
+    </div>
+    <div class="status-right">
+      <div class="status-item">
+        <svg class="status-icon" viewBox="0 0 24 24" width="16" height="16"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z" fill="white"/></svg>
+        <span>0</span>
+      </div>
+      <div class="status-item">
+        <svg class="status-icon" viewBox="0 0 24 24" width="16" height="16"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="white"/></svg>
+        <span>0</span>
+      </div>
+      <div class="status-item gamerscore">
+        <span class="score-value">285</span>
+        <div class="gamerscore-icon">G</div>
+      </div>
+      <div class="avatar-container">
+        <div class="avatar-bubble">
+          <svg viewBox="0 0 40 40" width="36" height="36">
+            <circle cx="20" cy="20" r="20" fill="#4a7c3f"/>
+            <circle cx="20" cy="15" r="7" fill="#2d5a27"/>
+            <ellipse cx="20" cy="32" rx="12" ry="9" fill="#2d5a27"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <nav class="nav-tabs" id="navTabs">
+    <ul>
+      <li class="nav-item" data-tab="bing">bing</li>
+      <li class="nav-item active" data-tab="home">home</li>
+      <li class="nav-item" data-tab="social">social</li>
+      <li class="nav-item" data-tab="video">video</li>
+      <li class="nav-item" data-tab="games">games</li>
+      <li class="nav-item" data-tab="music">music</li>
+      <li class="nav-item" data-tab="apps">apps</li>
+      <li class="nav-item" data-tab="settings">settings</li>
+    </ul>
+  </nav>
+
+  <!-- Main Dashboard Content -->
+  <main class="dashboard-content" id="dashboardContent">
+
+    <!-- HOME TAB -->
+    <section class="tab-panel active" id="tab-home">
+      <div class="metro-grid">
+
+        <!-- Close Tray Tile -->
+        <div class="metro-tile tile-close-tray focusable" data-action="closeTray" tabindex="0">
+          <div class="tile-icon">
+            <svg viewBox="0 0 48 48" width="48" height="48">
+              <circle cx="24" cy="24" r="20" stroke="white" stroke-width="3" fill="none"/>
+              <circle cx="24" cy="24" r="8" fill="white"/>
+            </svg>
+          </div>
+          <div class="tile-label">Close Tray</div>
+        </div>
+
+        <!-- Quickplay Tile -->
+        <div class="metro-tile tile-quickplay focusable" data-action="quickplay" tabindex="0">
+          <div class="tile-icon-sm">
+            <svg viewBox="0 0 48 48" width="36" height="36">
+              <polygon points="4,4 44,4 44,44 4,44" fill="none" stroke="white" stroke-width="2"/>
+              <polygon points="12,4 44,12 44,4" fill="white" opacity="0.5"/>
+              <polygon points="4,12 12,4 4,4" fill="white" opacity="0.5"/>
+              <polygon points="4,36 4,44 12,44" fill="white" opacity="0.5"/>
+              <polygon points="44,36 44,44 36,44" fill="white" opacity="0.5"/>
+            </svg>
+          </div>
+          <div class="quickplay-games">
+            <div class="qp-game-slot empty"></div>
+            <div class="qp-game-slot empty"></div>
+          </div>
+          <div class="tile-label">Quickplay</div>
+        </div>
+
+        <!-- Featured / Spotlight Tile -->
+        <div class="metro-tile tile-spotlight focusable" data-action="spotlight" tabindex="0">
+          <div class="spotlight-bg">
+            <div class="spotlight-crowd"></div>
+            <div class="xbox-sphere">
+              <div class="sphere-glow"></div>
+              <svg viewBox="0 0 120 120" width="120" height="120" class="xbox-logo-svg">
+                <defs>
+                  <radialGradient id="sphereGrad" cx="40%" cy="35%">
+                    <stop offset="0%" stop-color="#d0d0d0"/>
+                    <stop offset="60%" stop-color="#888"/>
+                    <stop offset="100%" stop-color="#444"/>
+                  </radialGradient>
+                </defs>
+                <circle cx="60" cy="60" r="58" fill="url(#sphereGrad)"/>
+                <path d="M30 25 Q60 10 90 25 Q110 50 90 80 Q60 100 30 80 Q10 55 30 25Z" fill="none" stroke="#4CAF50" stroke-width="5" opacity="0.9"/>
+                <line x1="60" y1="10" x2="30" y2="85" stroke="#4CAF50" stroke-width="5" opacity="0.9"/>
+                <line x1="60" y1="10" x2="90" y2="85" stroke="#4CAF50" stroke-width="5" opacity="0.9"/>
+              </svg>
+            </div>
+          </div>
+          <div class="spotlight-text">
+            <div class="spotlight-title">The New Face of Xbox LIVE</div>
+            <div class="spotlight-sub">Take a tour of all the great features</div>
+          </div>
+          <div class="spotlight-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        </div>
+
+        <!-- Xbox Canada Tile -->
+        <div class="metro-tile tile-xbox-canada focusable" data-action="xboxCanada" tabindex="0">
+          <div class="canada-header">
+            <span class="xbox-label">Xbox</span>
+            <span class="canada-text">Canada</span>
+          </div>
+          <div class="canada-leaf">
+            <svg viewBox="0 0 80 80" width="80" height="80">
+              <path d="M40 5 L45 25 L65 20 L55 35 L75 40 L55 45 L65 60 L45 55 L40 75 L35 55 L15 60 L25 45 L5 40 L25 35 L15 20 L35 25 Z" fill="#CC0000"/>
+            </svg>
+          </div>
+          <div class="tile-label-sm">Xbox Canada</div>
+        </div>
+
+        <!-- Advertisement Tile -->
+        <div class="metro-tile tile-ad focusable" data-action="ad" tabindex="0">
+          <div class="ad-content">
+            <div class="ad-headline">Reinvent<br/>family night.</div>
+            <div class="ad-cta">
+              <svg viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="12" r="10" fill="none" stroke="white" stroke-width="2"/><polyline points="12,8 12,16 16,12" fill="none" stroke="white" stroke-width="2"/></svg>
+              <span>Click to see how</span>
+            </div>
+            <div class="ad-image">
+              <div class="laptop-mockup">
+                <div class="laptop-screen">
+                  <div class="screen-content"></div>
+                </div>
+                <div class="laptop-base"></div>
+              </div>
+            </div>
+          </div>
+          <div class="ad-branding">Microsoft</div>
+          <div class="ad-label">ADVERTISEMENT</div>
+        </div>
+
+        <!-- Friends Side Panel -->
+        <div class="side-panel">
+          <div class="side-item focusable" data-action="friends" tabindex="0">Friends</div>
+          <div class="side-item focusable" data-action="social" tabindex="0">Social</div>
+          <div class="side-item focusable" data-action="signIn" tabindex="0">Sign In</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- GAMES TAB -->
+    <section class="tab-panel" id="tab-games">
+      <div class="games-grid" id="gamesGrid">
+        <div class="no-games-msg">
+          <div class="no-games-icon">
+            <svg viewBox="0 0 64 64" width="64" height="64">
+              <rect x="4" y="16" width="56" height="36" rx="6" fill="none" stroke="white" stroke-width="2"/>
+              <circle cx="20" cy="34" r="8" fill="none" stroke="white" stroke-width="2"/>
+              <line x1="20" y1="26" x2="20" y2="42" stroke="white" stroke-width="2"/>
+              <line x1="12" y1="34" x2="28" y2="34" stroke="white" stroke-width="2"/>
+              <circle cx="44" cy="30" r="3" fill="white"/>
+              <circle cx="50" cy="36" r="3" fill="white"/>
+              <circle cx="38" cy="36" r="3" fill="white"/>
+              <circle cx="44" cy="42" r="3" fill="white"/>
+            </svg>
+          </div>
+          <p>No games found.<br/>Connect the backend to load your library.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOCIAL TAB -->
+    <section class="tab-panel" id="tab-social">
+      <div class="social-panel">
+        <div class="friends-list">
+          <h2 class="panel-heading">Friends</h2>
+          <div class="friend-item offline">
+            <div class="friend-avatar"></div>
+            <div class="friend-info">
+              <div class="friend-name">Friend Slot 1</div>
+              <div class="friend-status">Offline</div>
+            </div>
+          </div>
+          <div class="friend-item offline">
+            <div class="friend-avatar"></div>
+            <div class="friend-info">
+              <div class="friend-name">Friend Slot 2</div>
+              <div class="friend-status">Offline</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SETTINGS TAB -->
+    <section class="tab-panel" id="tab-settings">
+      <div class="settings-panel">
+        <h2 class="panel-heading">Settings</h2>
+        <div class="settings-list">
+          <div class="setting-item focusable" tabindex="0">
+            <div class="setting-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 8c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06z" fill="white"/></svg>
+            </div>
+            <div class="setting-label">System</div>
+            <div class="setting-arrow">›</div>
+          </div>
+          <div class="setting-item focusable" tabindex="0">
+            <div class="setting-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="white"/></svg>
+            </div>
+            <div class="setting-label">Network</div>
+            <div class="setting-arrow">›</div>
+          </div>
+          <div class="setting-item focusable" tabindex="0">
+            <div class="setting-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z" fill="white"/></svg>
+            </div>
+            <div class="setting-label">Display</div>
+            <div class="setting-arrow">›</div>
+          </div>
+          <div class="setting-item focusable" tabindex="0">
+            <div class="setting-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" fill="white"/></svg>
+            </div>
+            <div class="setting-label">Audio</div>
+            <div class="setting-arrow">›</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIDEO TAB -->
+    <section class="tab-panel" id="tab-video">
+      <div class="coming-soon-panel">
+        <div class="cs-icon">
+          <svg viewBox="0 0 64 64" width="64" height="64"><polygon points="10,8 54,32 10,56" fill="none" stroke="white" stroke-width="2"/></svg>
+        </div>
+        <p>Video</p>
+        <span>Connect your media libraries via the backend</span>
+      </div>
+    </section>
+
+    <!-- MUSIC TAB -->
+    <section class="tab-panel" id="tab-music">
+      <div class="coming-soon-panel">
+        <div class="cs-icon">
+          <svg viewBox="0 0 64 64" width="64" height="64"><path d="M24 56V18l32-8v38" stroke="white" stroke-width="2" fill="none"/><circle cx="16" cy="56" r="8" fill="none" stroke="white" stroke-width="2"/><circle cx="48" cy="48" r="8" fill="none" stroke="white" stroke-width="2"/></svg>
+        </div>
+        <p>Music</p>
+        <span>Connect your music library via the backend</span>
+      </div>
+    </section>
+
+    <!-- APPS TAB -->
+    <section class="tab-panel" id="tab-apps">
+      <div class="coming-soon-panel">
+        <div class="cs-icon">
+          <svg viewBox="0 0 64 64" width="64" height="64">
+            <rect x="4" y="4" width="24" height="24" rx="3" fill="none" stroke="white" stroke-width="2"/>
+            <rect x="36" y="4" width="24" height="24" rx="3" fill="none" stroke="white" stroke-width="2"/>
+            <rect x="4" y="36" width="24" height="24" rx="3" fill="none" stroke="white" stroke-width="2"/>
+            <rect x="36" y="36" width="24" height="24" rx="3" fill="none" stroke="white" stroke-width="2"/>
+          </svg>
+        </div>
+        <p>Apps</p>
+        <span>App integrations coming soon</span>
+      </div>
+    </section>
+
+    <!-- BING TAB -->
+    <section class="tab-panel" id="tab-bing">
+      <div class="coming-soon-panel">
+        <div class="cs-icon" style="font-size:48px;font-weight:300;color:white;opacity:0.6;">bing</div>
+        <p>Search</p>
+        <span>Search functionality coming soon</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Controller Hint Bar -->
+  <div class="controller-hints">
+    <div class="hint">
+      <div class="btn-circle btn-a">A</div>
+      <span>Select</span>
+    </div>
+    <div class="hint">
+      <div class="btn-circle btn-b">B</div>
+      <span>Back</span>
+    </div>
+    <div class="hint">
+      <div class="btn-circle btn-x">X</div>
+      <span>Options</span>
+    </div>
+    <div class="hint">
+      <div class="btn-circle btn-y">Y</div>
+      <span>Details</span>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="js/dashboard.js"></script>
+  <script src="js/controller.js"></script>
+</body>
+</html>

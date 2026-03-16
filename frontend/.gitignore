@@ -1,0 +1,23 @@
+# Dependencies - never commit these
+node_modules/
+
+# Build outputs
+dist/
+build/
+out/
+release/
+
+# Electron builder cache
+.webpack/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
