@@ -9,6 +9,23 @@
 </head>
 <body>
 
+  <!-- Window control buttons (frameless window) -->
+  <div class="win-controls">
+    <button class="win-btn" id="winMinimize" title="Minimize">
+      <svg viewBox="0 0 10 1" width="10" height="1"><rect width="10" height="1" fill="currentColor"/></svg>
+    </button>
+    <button class="win-btn" id="winFullscreen" title="Toggle Fullscreen">
+      <svg viewBox="0 0 10 10" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.2">
+        <rect x="0.6" y="0.6" width="8.8" height="8.8" rx="0.5"/>
+      </svg>
+    </button>
+    <button class="win-btn win-btn-close" id="winClose" title="Close">
+      <svg viewBox="0 0 10 10" width="10" height="10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+        <line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/>
+      </svg>
+    </button>
+  </div>
+
   <!-- Top Status Bar -->
   <div class="status-bar">
     <div class="status-left">
@@ -193,108 +210,462 @@
 
     <!-- SOCIAL TAB -->
     <section class="tab-panel" id="tab-social">
-      <div class="social-panel">
-        <div class="friends-list">
-          <h2 class="panel-heading">Friends</h2>
-          <div class="friend-item offline">
-            <div class="friend-avatar"></div>
-            <div class="friend-info">
-              <div class="friend-name">Friend Slot 1</div>
-              <div class="friend-status">Offline</div>
+      <div class="social-layout">
+
+        <!-- Left: 3 stacked green tiles -->
+        <div class="social-tiles-col">
+
+          <div class="social-tile focusable" tabindex="0" data-action="friends">
+            <div class="social-tile-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="white" opacity="0.85">
+                <circle cx="12" cy="8" r="5"/>
+                <path d="M3 22 Q3 14 12 14 Q21 14 21 22"/>
+              </svg>
+            </div>
+            <div class="social-tile-label">Friends</div>
+          </div>
+
+          <div class="social-tile focusable" tabindex="0" data-action="socialApps">
+            <div class="social-tile-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="white" opacity="0.85">
+                <rect x="6" y="6" width="14" height="14" rx="2"/>
+                <rect x="3" y="3" width="14" height="14" rx="2" opacity="0.6"/>
+              </svg>
+            </div>
+            <div class="social-tile-label">Social Apps</div>
+          </div>
+
+          <div class="social-tile focusable" tabindex="0" data-action="signIn">
+            <div class="social-tile-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="white" opacity="0.85">
+                <circle cx="10" cy="8" r="4"/>
+                <path d="M2 22 Q2 15 10 15 Q16 15 18 20"/>
+                <polyline points="17,12 21,16 17,20" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <line x1="13" y1="16" x2="21" y2="16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="social-tile-label">Sign In or Out</div>
+          </div>
+
+        </div>
+
+        <!-- Right: Profile card -->
+        <div class="social-profile-area">
+          <div class="social-profile-info">
+            <div class="profile-gamertag">Player One</div>
+            <div class="profile-gscore">
+              <span class="profile-gscore-num">285</span>
+              <div class="gamerscore-icon" style="width:18px;height:18px;font-size:10px">G</div>
+            </div>
+            <!-- Recent games 3x3 grid -->
+            <div class="profile-games-grid">
+              <div class="pg-slot" style="background:#1a3a5c"></div>
+              <div class="pg-slot" style="background:#8b2500"></div>
+              <div class="pg-slot" style="background:#1c1c1c"></div>
+              <div class="pg-slot" style="background:#2a4a2a"></div>
+              <div class="pg-slot" style="background:#5a3a1a"></div>
+              <div class="pg-slot" style="background:#0a1a3a"></div>
+              <div class="pg-slot" style="background:#2a3a4a"></div>
+              <div class="pg-slot" style="background:#3a3a1a"></div>
+              <div class="pg-slot" style="background:#1a1a3a"></div>
             </div>
           </div>
-          <div class="friend-item offline">
-            <div class="friend-avatar"></div>
-            <div class="friend-info">
-              <div class="friend-name">Friend Slot 2</div>
-              <div class="friend-status">Offline</div>
-            </div>
+          <!-- Avatar figure -->
+          <div class="social-avatar-figure">
+            <svg viewBox="0 0 120 260" width="120" height="260">
+              <!-- Head -->
+              <ellipse cx="60" cy="38" rx="22" ry="26" fill="#c8a882"/>
+              <!-- Hair -->
+              <ellipse cx="60" cy="20" rx="22" ry="14" fill="#888"/>
+              <!-- Body / jacket -->
+              <rect x="28" y="80" width="64" height="80" rx="8" fill="#e8e8e8"/>
+              <!-- Collar -->
+              <path d="M45 80 L60 96 L75 80" fill="#ccc" stroke="#aaa" stroke-width="1"/>
+              <!-- Belt -->
+              <rect x="28" y="152" width="64" height="10" rx="2" fill="#666"/>
+              <!-- Pants -->
+              <rect x="28" y="162" width="28" height="80" rx="4" fill="#e8e8e8"/>
+              <rect x="64" y="162" width="28" height="80" rx="4" fill="#e8e8e8"/>
+              <!-- Shoes -->
+              <ellipse cx="42" cy="244" rx="16" ry="8" fill="#888"/>
+              <ellipse cx="78" cy="244" rx="16" ry="8" fill="#888"/>
+              <!-- Left arm -->
+              <rect x="8" y="80" width="20" height="60" rx="8" fill="#e8e8e8"/>
+              <!-- Right arm -->
+              <rect x="92" y="80" width="20" height="60" rx="8" fill="#e8e8e8"/>
+              <!-- Face details -->
+              <ellipse cx="50" cy="40" rx="3" ry="3.5" fill="#6a5040"/>
+              <ellipse cx="70" cy="40" rx="3" ry="3.5" fill="#6a5040"/>
+              <path d="M52 52 Q60 58 68 52" stroke="#8a6050" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
           </div>
         </div>
+
       </div>
     </section>
 
     <!-- SETTINGS TAB -->
     <section class="tab-panel" id="tab-settings">
       <div class="settings-panel">
-        <h2 class="panel-heading">Settings</h2>
-        <div class="settings-list">
-          <div class="setting-item focusable" tabindex="0">
-            <div class="setting-icon">
-              <svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 8c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06z" fill="white"/></svg>
+
+        <!-- 4×2 green metro tile grid -->
+        <div id="settingsMain" class="stile-grid">
+
+          <div class="stile focusable" tabindex="0" data-action="settings:System">
+            <div class="stile-icon">
+              <svg viewBox="0 0 36 56" width="40" height="52" fill="white">
+                <rect x="2" y="0" width="32" height="56" rx="6"/>
+                <rect x="6" y="4" width="24" height="38" rx="2" fill="rgba(0,80,0,0.28)"/>
+                <circle cx="18" cy="49" r="3.5" fill="rgba(0,80,0,0.35)"/>
+                <rect x="10" y="28" width="16" height="3" rx="1" fill="rgba(0,80,0,0.22)"/>
+              </svg>
             </div>
-            <div class="setting-label">System</div>
-            <div class="setting-arrow">›</div>
+            <div class="stile-label">System</div>
           </div>
-          <div class="setting-item focusable" tabindex="0">
-            <div class="setting-icon">
-              <svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="white"/></svg>
+
+          <div class="stile focusable" tabindex="0" data-action="settings:Preferences">
+            <div class="stile-icon">
+              <svg viewBox="0 0 44 42" width="48" height="46" fill="white">
+                <rect x="0" y="3"  width="8" height="8" rx="1.5"/>
+                <rect x="13" y="5" width="31" height="4" rx="2"/>
+                <rect x="0" y="17" width="8" height="8" rx="1.5"/>
+                <rect x="13" y="19" width="31" height="4" rx="2"/>
+                <rect x="0" y="31" width="8" height="8" rx="1.5"/>
+                <rect x="13" y="33" width="31" height="4" rx="2"/>
+              </svg>
             </div>
-            <div class="setting-label">Network</div>
-            <div class="setting-arrow">›</div>
+            <div class="stile-label">Preferences</div>
           </div>
-          <div class="setting-item focusable" tabindex="0">
-            <div class="setting-icon">
-              <svg viewBox="0 0 24 24" width="24" height="24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z" fill="white"/></svg>
+
+          <div class="stile focusable" tabindex="0" data-action="settings:Profile">
+            <div class="stile-icon">
+              <svg viewBox="0 0 48 48" width="50" height="50" fill="white">
+                <rect x="2" y="2" width="44" height="44" rx="4" stroke="white" stroke-width="3" fill="none"/>
+                <circle cx="24" cy="18" r="8"/>
+                <path d="M8 46 Q8 32 24 32 Q40 32 40 46"/>
+              </svg>
             </div>
-            <div class="setting-label">Display</div>
-            <div class="setting-arrow">›</div>
+            <div class="stile-label">Profile</div>
           </div>
-          <div class="setting-item focusable" tabindex="0">
-            <div class="setting-icon">
-              <svg viewBox="0 0 24 24" width="24" height="24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" fill="white"/></svg>
+
+          <div class="stile focusable" tabindex="0" data-action="settings:Kinect">
+            <div class="stile-icon">
+              <svg viewBox="0 0 64 24" width="64" height="24" fill="white">
+                <rect x="0" y="2" width="64" height="20" rx="10"/>
+                <circle cx="16" cy="12" r="4" fill="rgba(0,80,0,0.32)"/>
+                <circle cx="32" cy="12" r="4" fill="rgba(0,80,0,0.32)"/>
+                <circle cx="48" cy="12" r="4" fill="rgba(0,80,0,0.32)"/>
+              </svg>
             </div>
-            <div class="setting-label">Audio</div>
-            <div class="setting-arrow">›</div>
+            <div class="stile-label">Kinect</div>
           </div>
+
+          <div class="stile focusable" tabindex="0" data-action="settings:Account">
+            <div class="stile-icon">
+              <svg viewBox="0 0 52 48" width="52" height="48" fill="white">
+                <circle cx="20" cy="14" r="9"/>
+                <path d="M4 44 Q4 30 20 30 Q33 30 36 40"/>
+                <circle cx="42" cy="36" r="10"/>
+                <circle cx="42" cy="36" r="4" fill="rgba(0,80,0,0.3)"/>
+                <line x1="42" y1="26" x2="42" y2="30" stroke="rgba(0,80,0,0.5)" stroke-width="2"/>
+                <line x1="42" y1="42" x2="42" y2="46" stroke="rgba(0,80,0,0.5)" stroke-width="2"/>
+                <line x1="32" y1="36" x2="36" y2="36" stroke="rgba(0,80,0,0.5)" stroke-width="2"/>
+                <line x1="48" y1="36" x2="52" y2="36" stroke="rgba(0,80,0,0.5)" stroke-width="2"/>
+              </svg>
+            </div>
+            <div class="stile-label">Account</div>
+          </div>
+
+          <div class="stile focusable" tabindex="0" data-action="settings:Privacy">
+            <div class="stile-icon">
+              <svg viewBox="0 0 40 52" width="40" height="52" fill="white">
+                <path d="M8 22 V14 A12 12 0 0 1 32 14 V22" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <rect x="2" y="22" width="36" height="28" rx="4"/>
+                <circle cx="20" cy="35" r="4.5" fill="rgba(0,80,0,0.32)"/>
+                <rect x="18" y="35" width="4" height="9" rx="2" fill="rgba(0,80,0,0.32)"/>
+              </svg>
+            </div>
+            <div class="stile-label">Privacy</div>
+          </div>
+
+          <div class="stile focusable" tabindex="0" data-action="settings:Family">
+            <div class="stile-icon">
+              <svg viewBox="0 0 54 44" width="54" height="44" fill="white">
+                <circle cx="16" cy="11" r="9"/>
+                <path d="M0 44 Q0 27 16 27 Q32 27 32 44"/>
+                <circle cx="40" cy="14" r="6.5" opacity="0.75"/>
+                <path d="M26 44 Q26 31 40 31 Q52 31 52 44" opacity="0.75"/>
+              </svg>
+            </div>
+            <div class="stile-label">Family</div>
+          </div>
+
+          <div class="stile stile-turnoff focusable" tabindex="0" data-action="settings:Turn Off">
+            <div class="stile-icon">
+              <svg viewBox="0 0 48 48" width="48" height="48">
+                <circle cx="24" cy="24" r="20" stroke="white" stroke-width="4" fill="none"/>
+                <line x1="24" y1="6" x2="24" y2="24" stroke="white" stroke-width="4.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="stile-label">Turn Off</div>
+          </div>
+
         </div>
+
+        <!-- Settings detail sub-panel -->
+        <div id="settingsDetail" class="settings-detail" hidden>
+          <div class="setting-item focusable settings-back-item" tabindex="0" data-action="settings:back">
+            <div class="setting-icon">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><polyline points="15,18 9,12 15,6"/></svg>
+            </div>
+            <div class="setting-label settings-back-label">Back</div>
+          </div>
+          <h2 class="panel-heading" id="settingsDetailHeading"></h2>
+          <div class="settings-list" id="settingsDetailContent"></div>
+        </div>
+
       </div>
     </section>
 
     <!-- VIDEO TAB -->
     <section class="tab-panel" id="tab-video">
-      <div class="coming-soon-panel">
-        <div class="cs-icon">
-          <svg viewBox="0 0 64 64" width="64" height="64"><polygon points="10,8 54,32 10,56" fill="none" stroke="white" stroke-width="2"/></svg>
+      <div class="apps-grid">
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:YouTube:https://www.youtube.com" tabindex="0" aria-label="YouTube" style="background:#181818">
+          <div class="app-tile-icon">
+            <svg viewBox="0 0 32 22" width="44" height="30">
+              <rect width="32" height="22" rx="4" fill="#ff0000"/>
+              <polygon points="13,5 13,17 23,11" fill="white"/>
+            </svg>
+          </div>
+          <div class="app-tile-label">YouTube</div>
+          <div class="app-tile-sub">Videos</div>
         </div>
-        <p>Video</p>
-        <span>Connect your media libraries via the backend</span>
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:Netflix:https://www.netflix.com" tabindex="0" aria-label="Netflix" style="background:#8b0000">
+          <div class="app-tile-brand" style="color:#e50914">NETFLIX</div>
+          <div class="app-tile-label">Netflix</div>
+          <div class="app-tile-sub">Movies &amp; TV</div>
+        </div>
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:Hulu:https://www.hulu.com" tabindex="0" aria-label="Hulu" style="background:#1a3a1a">
+          <div class="app-tile-brand" style="color:#3dba4e;font-size:26px">hulu</div>
+          <div class="app-tile-label">Hulu</div>
+          <div class="app-tile-sub">Streaming</div>
+        </div>
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:Amazon Video:https://www.amazon.com/gp/video" tabindex="0" aria-label="Amazon Video" style="background:#131921">
+          <div class="app-tile-brand" style="color:#ff9900;font-size:14px">amazon<br/>prime video</div>
+          <div class="app-tile-label">Amazon Video</div>
+          <div class="app-tile-sub">Prime</div>
+        </div>
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:ESPN:https://www.espn.com" tabindex="0" aria-label="ESPN" style="background:#aa2200">
+          <div class="app-tile-brand" style="color:white;font-style:italic;font-size:28px">ESPN</div>
+          <div class="app-tile-label">ESPN</div>
+          <div class="app-tile-sub">Sports</div>
+        </div>
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:Twitch:https://www.twitch.tv" tabindex="0" aria-label="Twitch" style="background:#6441a5">
+          <div class="app-tile-icon">
+            <svg viewBox="0 0 32 32" width="36" height="36" fill="white">
+              <path d="M4 2L2 8v20h8v4h4l4-4h6l8-8V2H4zm24 18l-5 5h-7l-4 4v-4H6V5h22v15zm-5-11h-3v9h3V9zm-7 0h-3v9h3V9z"/>
+            </svg>
+          </div>
+          <div class="app-tile-label">Twitch</div>
+          <div class="app-tile-sub">Live streaming</div>
+        </div>
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:Crackle:https://www.crackle.com" tabindex="0" aria-label="Crackle" style="background:#1a1a5a">
+          <div class="app-tile-brand" style="color:#4466ff;font-size:18px">crackle</div>
+          <div class="app-tile-label">Crackle</div>
+          <div class="app-tile-sub">Free Movies &amp; TV</div>
+        </div>
+
       </div>
     </section>
 
     <!-- MUSIC TAB -->
     <section class="tab-panel" id="tab-music">
-      <div class="coming-soon-panel">
-        <div class="cs-icon">
-          <svg viewBox="0 0 64 64" width="64" height="64"><path d="M24 56V18l32-8v38" stroke="white" stroke-width="2" fill="none"/><circle cx="16" cy="56" r="8" fill="none" stroke="white" stroke-width="2"/><circle cx="48" cy="48" r="8" fill="none" stroke="white" stroke-width="2"/></svg>
+      <div class="apps-grid">
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:Spotify:https://open.spotify.com" tabindex="0" aria-label="Spotify" style="background:#1a3a1a">
+          <div class="app-tile-icon">
+            <svg viewBox="0 0 32 32" width="36" height="36">
+              <circle cx="16" cy="16" r="15" fill="#1db954"/>
+              <path d="M8 20.5c4.5-1.5 9.5-1.5 14 0" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <path d="M7 16c5-2 11-2 16 0" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <path d="M9 11.5c4-1.5 9-1.5 13 0" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <div class="app-tile-label">Spotify</div>
+          <div class="app-tile-sub">Music</div>
         </div>
-        <p>Music</p>
-        <span>Connect your music library via the backend</span>
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:YouTube Music:https://music.youtube.com" tabindex="0" aria-label="YouTube Music" style="background:#1a1a1a">
+          <div class="app-tile-icon">
+            <svg viewBox="0 0 32 32" width="36" height="36">
+              <circle cx="16" cy="16" r="15" fill="#ff0000"/>
+              <circle cx="16" cy="16" r="5" fill="black"/>
+              <polygon points="13,9 13,23 25,16" fill="white" opacity="0.9"/>
+            </svg>
+          </div>
+          <div class="app-tile-label">YouTube Music</div>
+          <div class="app-tile-sub">Streaming</div>
+        </div>
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:Last.fm:https://www.last.fm" tabindex="0" aria-label="Last.fm" style="background:#aa0000">
+          <div class="app-tile-brand" style="color:white;font-size:20px">last.fm</div>
+          <div class="app-tile-label">Last.fm</div>
+          <div class="app-tile-sub">Scrobble</div>
+        </div>
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:SoundCloud:https://soundcloud.com" tabindex="0" aria-label="SoundCloud" style="background:#cc5200">
+          <div class="app-tile-icon">
+            <svg viewBox="0 0 32 20" width="44" height="28">
+              <path d="M1 15.5C1 17 2.1 18 3.5 18H26c2.8 0 5-2.2 5-5s-2.2-5-5-5c-.3 0-.6 0-.9.1C24.6 4.9 21.6 2 18 2c-2.5 0-4.7 1.2-6.1 3.1C10.6 4.4 9.3 4 8 4 4.1 4 1 7.1 1 11v4.5z" fill="white" opacity="0.9"/>
+            </svg>
+          </div>
+          <div class="app-tile-label">SoundCloud</div>
+          <div class="app-tile-sub">Music &amp; audio</div>
+        </div>
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:iHeartRadio:https://www.iheart.com" tabindex="0" aria-label="iHeartRadio" style="background:#cc0000">
+          <div class="app-tile-icon">
+            <svg viewBox="0 0 32 32" width="36" height="36" fill="white">
+              <path d="M16 3C9.4 3 4 8.4 4 15c0 3.9 1.8 7.4 4.7 9.8L8 29l4.5-2.5c1.1.3 2.3.5 3.5.5 6.6 0 12-5.4 12-12S22.6 3 16 3zm0 21c-1 0-2-.1-2.9-.4l-.7-.2-2.7 1.5.5-2.8-.5-.4C7.5 20.4 6 17.8 6 15c0-5.5 4.5-10 10-10s10 4.5 10 10-4.5 10-10 10z"/>
+              <path d="M16 8c-3.9 0-7 3.1-7 7 0 2.6 1.4 4.9 3.5 6.2V19h7v2.2c2.1-1.3 3.5-3.6 3.5-6.2 0-3.9-3.1-7-7-7z"/>
+            </svg>
+          </div>
+          <div class="app-tile-label">iHeartRadio</div>
+          <div class="app-tile-sub">Radio &amp; podcasts</div>
+        </div>
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:Pandora:https://www.pandora.com" tabindex="0" aria-label="Pandora" style="background:#00585a">
+          <div class="app-tile-brand" style="color:white;font-size:22px">PANDORA</div>
+          <div class="app-tile-label">Pandora</div>
+          <div class="app-tile-sub">Internet radio</div>
+        </div>
+
       </div>
     </section>
 
     <!-- APPS TAB -->
     <section class="tab-panel" id="tab-apps">
-      <div class="coming-soon-panel">
-        <div class="cs-icon">
-          <svg viewBox="0 0 64 64" width="64" height="64">
-            <rect x="4" y="4" width="24" height="24" rx="3" fill="none" stroke="white" stroke-width="2"/>
-            <rect x="36" y="4" width="24" height="24" rx="3" fill="none" stroke="white" stroke-width="2"/>
-            <rect x="4" y="36" width="24" height="24" rx="3" fill="none" stroke="white" stroke-width="2"/>
-            <rect x="36" y="36" width="24" height="24" rx="3" fill="none" stroke="white" stroke-width="2"/>
-          </svg>
+      <div class="apps-grid">
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:Internet Explorer:https://www.bing.com" tabindex="0" aria-label="Internet Explorer" style="background:#1565c0">
+          <div class="app-tile-icon">
+            <svg viewBox="0 0 32 32" width="36" height="36" fill="none" stroke="white" stroke-width="1.5">
+              <circle cx="16" cy="16" r="13"/>
+              <ellipse cx="16" cy="16" rx="7" ry="13"/>
+              <line x1="3" y1="16" x2="29" y2="16"/>
+              <line x1="5" y1="9"  x2="27" y2="9"/>
+              <line x1="5" y1="23" x2="27" y2="23"/>
+            </svg>
+          </div>
+          <div class="app-tile-label">Internet Explorer</div>
+          <div class="app-tile-sub">Browse the web</div>
         </div>
-        <p>Apps</p>
-        <span>App integrations coming soon</span>
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:Netflix:https://www.netflix.com" tabindex="0" aria-label="Netflix" style="background:#8b0000">
+          <div class="app-tile-brand" style="color:#e50914">NETFLIX</div>
+          <div class="app-tile-label">Netflix</div>
+          <div class="app-tile-sub">Movies &amp; TV</div>
+        </div>
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:YouTube:https://www.youtube.com" tabindex="0" aria-label="YouTube" style="background:#181818">
+          <div class="app-tile-icon">
+            <svg viewBox="0 0 32 22" width="44" height="30">
+              <rect width="32" height="22" rx="4" fill="#ff0000"/>
+              <polygon points="13,5 13,17 23,11" fill="white"/>
+            </svg>
+          </div>
+          <div class="app-tile-label">YouTube</div>
+          <div class="app-tile-sub">Videos</div>
+        </div>
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:Hulu:https://www.hulu.com" tabindex="0" aria-label="Hulu" style="background:#1a3a1a">
+          <div class="app-tile-brand" style="color:#3dba4e;font-size:26px">hulu</div>
+          <div class="app-tile-label">Hulu</div>
+          <div class="app-tile-sub">Streaming</div>
+        </div>
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:ESPN:https://www.espn.com" tabindex="0" aria-label="ESPN" style="background:#aa2200">
+          <div class="app-tile-brand" style="color:white;font-style:italic">ESPN</div>
+          <div class="app-tile-label">ESPN</div>
+          <div class="app-tile-sub">Sports</div>
+        </div>
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:Spotify:https://open.spotify.com" tabindex="0" aria-label="Spotify" style="background:#1a3a1a">
+          <div class="app-tile-icon">
+            <svg viewBox="0 0 32 32" width="36" height="36">
+              <circle cx="16" cy="16" r="15" fill="#1db954"/>
+              <path d="M8 20.5c4.5-1.5 9.5-1.5 14 0" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <path d="M7 16c5-2 11-2 16 0"           stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <path d="M9 11.5c4-1.5 9-1.5 13 0"      stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <div class="app-tile-label">Spotify</div>
+          <div class="app-tile-sub">Music</div>
+        </div>
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:Twitter:https://x.com" tabindex="0" aria-label="Twitter" style="background:#1da1f2">
+          <div class="app-tile-icon">
+            <svg viewBox="0 0 32 32" width="34" height="34" fill="white">
+              <path d="M30 7a12 12 0 01-3.4.9 6 6 0 002.6-3.3 12 12 0 01-3.8 1.4 6 6 0 00-10.2 5.4A17 17 0 012 6.4a6 6 0 001.8 8A6 6 0 012 13.7v.1a6 6 0 004.8 5.8 6 6 0 01-2.7.1 6 6 0 005.6 4.2 12 12 0 01-7.5 2.6H1a17 17 0 009.2 2.7c11 0 17-9.1 17-17v-.8A12 12 0 0030 7z"/>
+            </svg>
+          </div>
+          <div class="app-tile-label">Twitter</div>
+          <div class="app-tile-sub">What's happening</div>
+        </div>
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:Facebook:https://www.facebook.com" tabindex="0" aria-label="Facebook" style="background:#1877f2">
+          <div class="app-tile-icon">
+            <svg viewBox="0 0 32 32" width="32" height="32" fill="white">
+              <path d="M18 32V20h4l1-5h-5v-3c0-1.4.4-2.4 2.4-2.4H23V4.8A34 34 0 0019.2 4.6C15 4.6 12 7.2 12 11.9V15H8v5h4v12h6z"/>
+            </svg>
+          </div>
+          <div class="app-tile-label">Facebook</div>
+          <div class="app-tile-sub">Connect</div>
+        </div>
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:Last.fm:https://www.last.fm" tabindex="0" aria-label="Last.fm" style="background:#aa0000">
+          <div class="app-tile-brand" style="color:white;font-size:20px">last.fm</div>
+          <div class="app-tile-label">Last.fm</div>
+          <div class="app-tile-sub">Scrobble</div>
+        </div>
+
+        <div class="metro-tile app-tile focusable" data-action="openApp:Crackle:https://www.crackle.com" tabindex="0" aria-label="Crackle" style="background:#1a1a5a">
+          <div class="app-tile-brand" style="color:#4466ff;font-size:18px">crackle</div>
+          <div class="app-tile-label">Crackle</div>
+          <div class="app-tile-sub">Free Movies &amp; TV</div>
+        </div>
+
       </div>
     </section>
 
     <!-- BING TAB -->
     <section class="tab-panel" id="tab-bing">
-      <div class="coming-soon-panel">
-        <div class="cs-icon" style="font-size:48px;font-weight:300;color:white;opacity:0.6;">bing</div>
-        <p>Search</p>
-        <span>Search functionality coming soon</span>
+      <div class="bing-panel">
+        <div class="bing-logo-word">bing</div>
+        <div class="bing-search-row">
+          <input type="text" id="bingInput" class="bing-input focusable"
+                 placeholder="Search the web..." tabindex="0"
+                 autocomplete="off" spellcheck="false" />
+          <button class="bing-search-btn focusable" id="bingSearchBtn" tabindex="0">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <circle cx="11" cy="11" r="7" stroke="white" stroke-width="2.2" fill="none"/>
+              <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="white" stroke-width="2.2"/>
+            </svg>
+          </button>
+        </div>
+        <div class="bing-cats">
+          <div class="bing-cat focusable" data-bingcat="search" tabindex="0">Web</div>
+          <div class="bing-cat focusable" data-bingcat="images" tabindex="0">Images</div>
+          <div class="bing-cat focusable" data-bingcat="news"   tabindex="0">News</div>
+          <div class="bing-cat focusable" data-bingcat="videos" tabindex="0">Videos</div>
+        </div>
       </div>
     </section>
 
@@ -323,7 +694,46 @@
   <!-- Notification Toast -->
   <div class="toast" id="toast"></div>
 
-  <script src="js/dashboard.js"></script>
-  <script src="js/controller.js"></script>
+  <!-- ── App Overlay (webview) ── -->
+  <div class="app-overlay" id="appOverlay" hidden>
+
+    <div class="app-overlay-bar">
+      <button class="app-back-btn focusable" id="appBackBtn" tabindex="0" aria-label="Back to Dashboard">
+        <div class="btn-circle btn-b" style="width:20px;height:20px;font-size:11px;line-height:20px;">B</div>
+        <span>Back</span>
+      </button>
+
+      <div class="app-overlay-title">
+        <span class="app-overlay-name" id="appOverlayName"></span>
+        <span class="app-overlay-url"  id="appOverlayUrl"></span>
+      </div>
+
+      <div class="app-load-track"><div class="app-load-bar" id="appLoadBar"></div></div>
+
+      <div class="app-nav-btns">
+        <button class="app-nav-btn focusable" id="appNavBack"    tabindex="0" title="Back">
+          <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><polyline points="12,4 6,10 12,16"/></svg>
+        </button>
+        <button class="app-nav-btn focusable" id="appNavForward" tabindex="0" title="Forward">
+          <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><polyline points="8,4 14,10 8,16"/></svg>
+        </button>
+        <button class="app-nav-btn focusable" id="appNavReload"  tabindex="0" title="Reload">
+          <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M3 10a7 7 0 0112.3-4.6L17 4"/><polyline points="13,4 17,4 17,8"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <webview id="appWebview" class="app-webview" src="about:blank" allowpopups partition="persist:apps"></webview>
+
+    <div class="app-splash" id="appSplash">
+      <div class="app-splash-icon" id="appSplashIcon"></div>
+      <div class="app-splash-name"  id="appSplashName"></div>
+      <div class="app-splash-dots"><span></span><span></span><span></span></div>
+    </div>
+
+  </div>
+
+  <script src="css/js/dashboard.js"></script>
+  <script src="css/js/controller.js"></script>
 </body>
 </html>

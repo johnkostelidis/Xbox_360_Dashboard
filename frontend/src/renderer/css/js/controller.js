@@ -125,21 +125,32 @@
   }
 
   function goBack() {
-    // Navigate to home tab on B press
+    // If app overlay is open, close it instead of navigating
+    if (window.isAppOpen && window.closeApp) {
+      window.closeApp();
+      return;
+    }
     const homeTab = document.querySelector('.nav-item[data-tab="home"]');
     if (homeTab) homeTab.click();
   }
 
   // ─── Keyboard fallback ─────────────────────────
   document.addEventListener('keydown', e => {
+    // Always handle Escape/Backspace so B closes the overlay
+    if (e.key === 'Backspace' || e.key === 'Escape') {
+      e.preventDefault();
+      goBack();
+      return;
+    }
+    // Block all other dashboard navigation while the app overlay is open
+    if (window.isAppOpen) return;
+
     switch (e.key) {
       case 'ArrowUp':    e.preventDefault(); move('up');    break;
       case 'ArrowDown':  e.preventDefault(); move('down');  break;
       case 'ArrowLeft':  e.preventDefault(); move('left');  break;
       case 'ArrowRight': e.preventDefault(); move('right'); break;
       case 'Enter':      e.preventDefault(); activate();    break;
-      case 'Backspace':
-      case 'Escape':     e.preventDefault(); goBack();      break;
     }
   });
 
@@ -171,13 +182,17 @@
   }
 
   function onButtonDown(btnIndex) {
+    // B always works — closes overlay or goes back
+    if (btnIndex === BTN.B) { goBack(); return; }
+    // Block everything else while the app overlay is open
+    if (window.isAppOpen) return;
+
     switch (btnIndex) {
       case BTN.DPAD_U:  move('up');    break;
       case BTN.DPAD_D:  move('down');  break;
       case BTN.DPAD_L:  move('left');  break;
       case BTN.DPAD_R:  move('right'); break;
       case BTN.A:       activate();    break;
-      case BTN.B:       goBack();      break;
       case BTN.RB:      cycleTabRight(); break;
       case BTN.LB:      cycleTabLeft();  break;
       case BTN.START:   activate();    break;
@@ -209,8 +224,6 @@
   }
 
   // ─── Tab cycling with bumpers ──────────────────
-  const TAB_ORDER = ['bing','home','social','video','games','music','apps','settings'];
-
   function cycleTabRight() {
     const navItems = document.querySelectorAll('.nav-item');
     const current  = document.querySelector('.nav-item.active');
@@ -262,6 +275,7 @@
   }
 
   // ─── Init ──────────────────────────────────────
+  window.rebuildFocusables = rebuildFocusables;
   setTimeout(rebuildFocusables, 100);
 
 })();

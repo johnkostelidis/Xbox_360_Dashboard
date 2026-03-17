@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, session } = require('electron');
 const path = require('path');
 
 let mainWindow;
@@ -14,11 +14,15 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
       contextIsolation: true,
+      webviewTag: true,
     },
     icon: path.join(__dirname, '../../public/icon.png'),
   });
 
   mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'));
+
+  // Allow all permission requests from the app overlay webview (persist:apps partition)
+  session.fromPartition('persist:apps').setPermissionRequestHandler((_wc, _perm, callback) => callback(true));
 
   // Toggle fullscreen with F11
   mainWindow.webContents.on('before-input-event', (event, input) => {
@@ -61,7 +65,13 @@ ipcMain.handle('launch-game', async (event, gameId) => {
 });
 
 ipcMain.handle('toggle-fullscreen', () => {
-  if (mainWindow) {
-    mainWindow.setFullScreen(!mainWindow.isFullScreen());
-  }
+  if (mainWindow) mainWindow.setFullScreen(!mainWindow.isFullScreen());
+});
+
+ipcMain.handle('minimize-window', () => {
+  if (mainWindow) mainWindow.minimize();
+});
+
+ipcMain.handle('close-window', () => {
+  if (mainWindow) mainWindow.close();
 });
