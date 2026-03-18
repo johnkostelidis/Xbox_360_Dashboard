@@ -486,7 +486,212 @@ html, body {
   outline: var(--focus-outline);
 }
 
-/* ─── Games Grid ──────────────────────────────── */
+/* ─── Games NXE Layout ────────────────────────── */
+.games-nxe {
+  display: grid;
+  grid-template-columns: 130px 1fr 200px;
+  gap: 8px;
+  height: 100%;
+  align-items: center;
+  padding: 10px 0 10px;
+}
+
+/* Left column */
+.games-left-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  justify-content: center;
+}
+
+.games-side-tile {
+  flex: 1;
+  max-height: 50%;
+  border-radius: 2px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 10px 10px 8px;
+  transition: filter var(--transition);
+  outline: none;
+  overflow: hidden;
+  position: relative;
+}
+.games-side-tile:focus, .games-side-tile.focused {
+  outline: var(--focus-outline);
+  filter: brightness(1.15);
+}
+
+.games-my-games {
+  background: linear-gradient(135deg, #6ecf5a 0%, #4aab35 60%, #2a7a1a 100%);
+}
+
+.games-marketplace-tile {
+  background: linear-gradient(135deg, #3a7a2a 0%, #2a5a1a 60%, #1a3a0a 100%);
+}
+
+.games-side-icon {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  opacity: 0.9;
+}
+
+.games-side-label {
+  font-size: 13px;
+  font-weight: 400;
+  color: white;
+  line-height: 1.2;
+}
+
+/* Center featured tile */
+.games-featured-tile {
+  height: 100%;
+  background: linear-gradient(160deg, #2a4a2a 0%, #1a3a1a 40%, #0e2a0e 100%);
+  border-radius: 2px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  outline: none;
+  transition: filter var(--transition);
+}
+.games-featured-tile:focus, .games-featured-tile.focused {
+  outline: var(--focus-outline);
+  filter: brightness(1.1);
+}
+
+.games-feat-badge {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+}
+
+.games-feat-visual {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 20px 10px;
+}
+
+.games-controller-svg {
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,0.7));
+  opacity: 0.95;
+}
+
+.games-feat-info {
+  padding: 0 18px 16px;
+}
+
+.games-feat-title {
+  font-size: 20px;
+  font-weight: 300;
+  color: white;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.games-feat-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 10px;
+}
+
+.games-feat-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.games-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+}
+.games-dot.active { background: rgba(255,255,255,0.9); }
+
+/* Right column */
+.games-right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  justify-content: center;
+}
+
+.games-right-tile {
+  flex: 1;
+  max-height: 50%;
+  border-radius: 2px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 10px 12px 10px;
+  outline: none;
+  overflow: hidden;
+  position: relative;
+  transition: filter var(--transition);
+}
+.games-right-tile:focus, .games-right-tile.focused {
+  outline: var(--focus-outline);
+  filter: brightness(1.12);
+}
+
+.games-specials-tile {
+  background: linear-gradient(135deg, #e8e8e8 0%, #cccccc 100%);
+  justify-content: flex-start;
+  padding-top: 12px;
+}
+
+.games-right-tile-label-top {
+  font-size: 13px;
+  font-weight: 300;
+  color: #333;
+  line-height: 1;
+}
+
+.games-right-tile-label-main {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+}
+
+.games-heroes-tile {
+  background: #1a2a4a;
+  padding: 0 0 8px;
+  justify-content: flex-end;
+}
+
+.games-heroes-figures {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+}
+.games-heroes-figures svg { width: 100%; height: auto; }
+
+.games-right-tile-label-bottom {
+  font-size: 13px;
+  font-weight: 400;
+  color: white;
+  padding: 0 12px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Legacy Games Grid (kept for compatibility) ── */
 .games-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));

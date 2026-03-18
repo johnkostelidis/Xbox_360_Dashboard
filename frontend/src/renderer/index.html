@@ -189,22 +189,131 @@
 
     <!-- GAMES TAB -->
     <section class="tab-panel" id="tab-games">
-      <div class="games-grid" id="gamesGrid">
-        <div class="no-games-msg">
-          <div class="no-games-icon">
-            <svg viewBox="0 0 64 64" width="64" height="64">
-              <rect x="4" y="16" width="56" height="36" rx="6" fill="none" stroke="white" stroke-width="2"/>
-              <circle cx="20" cy="34" r="8" fill="none" stroke="white" stroke-width="2"/>
-              <line x1="20" y1="26" x2="20" y2="42" stroke="white" stroke-width="2"/>
-              <line x1="12" y1="34" x2="28" y2="34" stroke="white" stroke-width="2"/>
-              <circle cx="44" cy="30" r="3" fill="white"/>
-              <circle cx="50" cy="36" r="3" fill="white"/>
-              <circle cx="38" cy="36" r="3" fill="white"/>
-              <circle cx="44" cy="42" r="3" fill="white"/>
+      <div class="games-nxe">
+
+        <!-- Left column: My Games + Game Marketplace -->
+        <div class="games-left-col">
+
+          <div class="games-side-tile games-my-games focusable" tabindex="0" data-action="myGames">
+            <div class="games-side-icon">
+              <svg viewBox="0 0 36 26" width="36" height="26" fill="none">
+                <rect x="1" y="4" width="34" height="20" rx="4" stroke="white" stroke-width="2"/>
+                <circle cx="10" cy="14" r="5" stroke="white" stroke-width="1.5" fill="none"/>
+                <line x1="10" y1="9" x2="10" y2="19" stroke="white" stroke-width="1.5"/>
+                <line x1="5" y1="14" x2="15" y2="14" stroke="white" stroke-width="1.5"/>
+                <circle cx="24" cy="11" r="2" fill="white"/>
+                <circle cx="28" cy="15" r="2" fill="white"/>
+                <circle cx="20" cy="15" r="2" fill="white"/>
+                <circle cx="24" cy="19" r="2" fill="white"/>
+              </svg>
+            </div>
+            <div class="games-side-label">My Games</div>
+          </div>
+
+          <div class="games-side-tile games-marketplace-tile focusable" tabindex="0" data-action="gameMarketplace">
+            <div class="games-side-label">Game Marketplace</div>
+          </div>
+
+        </div>
+
+        <!-- Center: Featured spotlight tile -->
+        <div class="games-featured-tile focusable" tabindex="0" data-action="gameMarketplaceWalkthrough">
+          <div class="games-feat-badge">ENTERTAINMENT</div>
+          <div class="games-feat-visual">
+            <!-- Xbox 360 Controller SVG -->
+            <svg viewBox="0 0 260 180" width="260" height="180" class="games-controller-svg">
+              <!-- Controller body -->
+              <ellipse cx="130" cy="110" rx="110" ry="55" fill="#2a2a2a"/>
+              <!-- Left grip -->
+              <ellipse cx="60" cy="145" rx="45" ry="32" fill="#1e1e1e"/>
+              <!-- Right grip -->
+              <ellipse cx="200" cy="145" rx="45" ry="32" fill="#1e1e1e"/>
+              <!-- Face plate -->
+              <ellipse cx="130" cy="100" rx="95" ry="48" fill="#383838"/>
+              <!-- Center Xbox guide button glow -->
+              <circle cx="130" cy="75" r="18" fill="#1a4a1a" opacity="0.8"/>
+              <circle cx="130" cy="75" r="14" fill="#3a8a30"/>
+              <!-- Xbox X on guide button -->
+              <path d="M123 68 L137 82 M137 68 L123 82" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+              <!-- D-pad -->
+              <rect x="74" y="88" width="8" height="22" rx="2" fill="#222"/>
+              <rect x="68" y="94" width="20" height="10" rx="2" fill="#222"/>
+              <!-- Left stick -->
+              <circle cx="90" cy="120" r="12" fill="#222"/>
+              <circle cx="90" cy="120" r="8" fill="#2d2d2d"/>
+              <!-- Right stick -->
+              <circle cx="158" cy="120" r="12" fill="#222"/>
+              <circle cx="158" cy="120" r="8" fill="#2d2d2d"/>
+              <!-- ABXY buttons -->
+              <circle cx="170" cy="88" r="7" fill="#3a8a30"/><!-- A green -->
+              <text x="170" y="92" text-anchor="middle" fill="white" font-size="8" font-weight="bold">A</text>
+              <circle cx="183" cy="78" r="7" fill="#cc2200"/><!-- B red -->
+              <text x="183" y="82" text-anchor="middle" fill="white" font-size="8" font-weight="bold">B</text>
+              <circle cx="157" cy="78" r="7" fill="#1a5fb4"/><!-- X blue -->
+              <text x="157" y="82" text-anchor="middle" fill="white" font-size="8" font-weight="bold">X</text>
+              <circle cx="170" cy="68" r="7" fill="#b8860b"/><!-- Y yellow -->
+              <text x="170" y="72" text-anchor="middle" fill="white" font-size="8" font-weight="bold">Y</text>
+              <!-- Start / Back -->
+              <ellipse cx="143" cy="90" rx="6" ry="4" fill="#2a2a2a" stroke="#555" stroke-width="1"/>
+              <ellipse cx="117" cy="90" rx="6" ry="4" fill="#2a2a2a" stroke="#555" stroke-width="1"/>
+              <!-- Bumpers -->
+              <rect x="48" y="72" width="38" height="8" rx="4" fill="#2d2d2d"/>
+              <rect x="174" y="72" width="38" height="8" rx="4" fill="#2d2d2d"/>
+              <!-- Triggers -->
+              <ellipse cx="67" cy="62" rx="20" ry="9" fill="#242424"/>
+              <ellipse cx="193" cy="62" rx="20" ry="9" fill="#242424"/>
+              <!-- USB dongle receiver hint at top -->
+              <rect x="122" y="50" width="16" height="6" rx="3" fill="#1e3a1e"/>
             </svg>
           </div>
-          <p>No games found.<br/>Connect the backend to load your library.</p>
+          <div class="games-feat-info">
+            <div class="games-feat-title">Game Marketplace Walkthrough</div>
+            <div class="games-feat-sub">Tour new features and navigation</div>
+            <div class="games-feat-dots">
+              <span class="games-dot active"></span>
+              <span class="games-dot"></span>
+              <span class="games-dot"></span>
+              <span class="games-dot"></span>
+              <span class="games-dot"></span>
+            </div>
+          </div>
         </div>
+
+        <!-- Right column: Sales & Specials + Modern Heroes -->
+        <div class="games-right-col">
+
+          <div class="games-right-tile games-specials-tile focusable" tabindex="0" data-action="salesSpecials">
+            <div class="games-right-tile-label-top">sales &amp;</div>
+            <div class="games-right-tile-label-main">SPECIALS</div>
+          </div>
+
+          <div class="games-right-tile games-heroes-tile focusable" tabindex="0" data-action="modernHeroes">
+            <div class="games-heroes-figures">
+              <!-- Stylized hero silhouettes -->
+              <svg viewBox="0 0 120 90" width="120" height="90">
+                <!-- background glow -->
+                <rect width="120" height="90" fill="#1a2a4a"/>
+                <!-- Left figure (taller) -->
+                <ellipse cx="38" cy="25" rx="10" ry="11" fill="#c8a882"/>
+                <rect x="24" y="38" width="28" height="38" rx="4" fill="#2244aa"/>
+                <rect x="24" y="68" width="12" height="18" rx="3" fill="#1a3a88"/>
+                <rect x="40" y="68" width="12" height="18" rx="3" fill="#1a3a88"/>
+                <rect x="12" y="38" width="14" height="30" rx="4" fill="#2244aa"/>
+                <rect x="52" y="38" width="14" height="30" rx="4" fill="#2244aa"/>
+                <!-- Right figure (shorter) -->
+                <ellipse cx="82" cy="32" rx="9" ry="10" fill="#d4b896"/>
+                <rect x="69" y="44" width="26" height="33" rx="4" fill="#aa3322"/>
+                <rect x="69" y="68" width="11" height="16" rx="3" fill="#882211"/>
+                <rect x="84" y="68" width="11" height="16" rx="3" fill="#882211"/>
+                <rect x="58" y="44" width="13" height="26" rx="4" fill="#aa3322"/>
+                <rect x="95" y="44" width="13" height="26" rx="4" fill="#aa3322"/>
+              </svg>
+            </div>
+            <div class="games-right-tile-label-bottom">Modern Heroes</div>
+          </div>
+
+        </div>
+
       </div>
     </section>
 
