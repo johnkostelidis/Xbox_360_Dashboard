@@ -4,8 +4,9 @@
  *  - Xbox / generic gamepad via Gamepad API
  *  - Keyboard arrow keys for development / fallback
  *
- * Focus model: a flat list of "focusable" elements is built per tab.
- * D-Pad or arrow keys move through the list spatially (nearest-neighbour).
+ * Navigation model — two containers:
+ *   'nav'     : the tab bar (Left/Right switch tabs, Down → content)
+ *   'content' : the active tab's tiles (Up at top edge → nav, Left/Right at edge cycle tabs)
  */
 
 (function () {
@@ -14,8 +15,8 @@
   // ─── Config ────────────────────────────────────
   const GAMEPAD_POLL_MS = 50;
   const DEADZONE        = 0.4;
-  const REPEAT_DELAY_MS = 180; // first repeat
-  const REPEAT_RATE_MS  = 120; // subsequent
+  const REPEAT_DELAY_MS = 180;
+  const REPEAT_RATE_MS  = 120;
 
   // Xbox button indices (standard mapping)
   const BTN = {
@@ -39,25 +40,60 @@
   };
 
   // ─── State ────────────────────────────────────
-  let focusedIndex     = 0;
-  let focusables       = [];
-  let lastButtonState  = {};
-  let repeatTimers     = {};
-  let pollInterval     = null;
+  let zone         = 'content'; // 'nav' | 'content'
+  let focusedIndex = 0;         // index within content focusables
+  let focusables   = [];        // tiles in the active tab
 
-  // ─── Build focusable list for visible tab ──────
+  let lastButtonState = {};
+  let repeatTimers    = {};
+  let pollInterval    = null;
+
+  // ─── Nav container helpers ─────────────────────
+  function navItems() {
+    return Array.from(document.querySelectorAll('.nav-item'));
+  }
+
+  function activeNavIndex() {
+    return navItems().indexOf(document.querySelector('.nav-item.active'));
+  }
+
+  function setNavFocus(idx) {
+    const items = navItems();
+    items.forEach(el => el.classList.remove('nav-focused'));
+    if (items[idx]) items[idx].classList.add('nav-focused');
+  }
+
+  function enterNav() {
+    zone = 'nav';
+    focusables.forEach(el => el.classList.remove('focused'));
+    setNavFocus(activeNavIndex());
+  }
+
+  function exitNav() {
+    zone = 'content';
+    navItems().forEach(el => el.classList.remove('nav-focused'));
+    focusedIndex = 0;
+    if (focusables.length > 0) setFocus(0);
+  }
+
+  // ─── Content container ─────────────────────────
   function rebuildFocusables() {
     focusables = Array.from(
-      document.querySelectorAll(
-        '.tab-panel.active .focusable, .nav-item, .side-item'
-      )
+      document.querySelectorAll('.tab-panel.active .focusable')
     ).filter(el => {
       const r = el.getBoundingClientRect();
       return r.width > 0 && r.height > 0;
     });
 
+    // Always keep focusedIndex in bounds
     if (focusables.length > 0) {
-      focusedIndex = Math.min(focusedIndex, focusables.length - 1);
+      focusedIndex = Math.min(Math.max(0, focusedIndex), focusables.length - 1);
+    }
+
+    if (zone === 'nav') {
+      // Stay in nav — just refresh the highlight after the tab change
+      setNavFocus(activeNavIndex());
+    } else if (focusables.length > 0) {
       setFocus(focusedIndex);
     }
   }
@@ -71,7 +107,7 @@
     }
   }
 
-  // ─── Spatial navigation helper ─────────────────
+  // ─── Spatial navigation ────────────────────────
   function findNearest(dir) {
     const current = focusables[focusedIndex];
     if (!current) return focusedIndex;
@@ -100,7 +136,6 @@
       }
       if (!inDirection) return;
 
-      // Weighted Manhattan: prefer the axis of travel
       const primary   = (dir === 'up' || dir === 'down') ? Math.abs(dy) : Math.abs(dx);
       const secondary = (dir === 'up' || dir === 'down') ? Math.abs(dx) : Math.abs(dy);
       const score     = primary + secondary * 2.5;
@@ -114,35 +149,73 @@
     return bestIndex;
   }
 
+  // ─── Move — dispatches by active container ─────
   function move(dir) {
+    if (zone === 'nav') {
+      const idx   = activeNavIndex();
+      const items = navItems();
+      if (dir === 'left'  && idx > 0)                { items[idx - 1].click(); setNavFocus(idx - 1); }
+      else if (dir === 'right' && idx < items.length - 1) { items[idx + 1].click(); setNavFocus(idx + 1); }
+      else if (dir === 'down') { exitNav(); }
+      // up: do nothing — already at top
+      return;
+    }
+
+    // ── content container ──
     const next = findNearest(dir);
-    if (next !== focusedIndex) setFocus(next);
+    if (next !== focusedIndex) {
+      setFocus(next);
+    } else {
+      if      (dir === 'up')    enterNav();
+      else if (dir === 'left')  cycleTabLeft();
+      else if (dir === 'right') cycleTabRight();
+      // down at bottom edge: do nothing
+    }
   }
 
   function activate() {
+    if (zone === 'nav') {
+      // Enter key on a nav item just moves down into content
+      exitNav();
+      return;
+    }
     const el = focusables[focusedIndex];
     if (el) el.click();
   }
 
   function goBack() {
-    // If app overlay is open, close it instead of navigating
     if (window.isAppOpen && window.closeApp) {
       window.closeApp();
+      return;
+    }
+    if (zone === 'nav') {
+      exitNav();
       return;
     }
     const homeTab = document.querySelector('.nav-item[data-tab="home"]');
     if (homeTab) homeTab.click();
   }
 
-  // ─── Keyboard fallback ─────────────────────────
+  // ─── Tab cycling (no wrap) ─────────────────────
+  function cycleTabRight() {
+    const items = navItems();
+    const idx   = activeNavIndex();
+    if (idx < items.length - 1) items[idx + 1].click();
+  }
+
+  function cycleTabLeft() {
+    const items = navItems();
+    const idx   = activeNavIndex();
+    if (idx > 0) items[idx - 1].click();
+  }
+
+  // ─── Keyboard ──────────────────────────────────
   document.addEventListener('keydown', e => {
-    // Always handle Escape/Backspace so B closes the overlay
     if (e.key === 'Backspace' || e.key === 'Escape') {
       e.preventDefault();
       goBack();
       return;
     }
-    // Block all other dashboard navigation while the app overlay is open
     if (window.isAppOpen) return;
 
     switch (e.key) {
@@ -167,7 +240,6 @@
     const wasPressed = lastButtonState[btnIndex];
     if (pressed && !wasPressed) {
       onButtonDown(btnIndex);
-      // Start repeat timer for directional buttons
       if ([BTN.DPAD_U, BTN.DPAD_D, BTN.DPAD_L, BTN.DPAD_R].includes(btnIndex)) {
         repeatTimers[btnIndex] = setTimeout(() => {
           repeatTimers[btnIndex] = setInterval(() => onButtonDown(btnIndex), REPEAT_RATE_MS);
@@ -182,20 +254,18 @@
   }
 
   function onButtonDown(btnIndex) {
-    // B always works — closes overlay or goes back
     if (btnIndex === BTN.B) { goBack(); return; }
-    // Block everything else while the app overlay is open
     if (window.isAppOpen) return;
 
     switch (btnIndex) {
-      case BTN.DPAD_U:  move('up');    break;
-      case BTN.DPAD_D:  move('down');  break;
-      case BTN.DPAD_L:  move('left');  break;
-      case BTN.DPAD_R:  move('right'); break;
-      case BTN.A:       activate();    break;
-      case BTN.RB:      cycleTabRight(); break;
-      case BTN.LB:      cycleTabLeft();  break;
-      case BTN.START:   activate();    break;
+      case BTN.DPAD_U:  move('up');         break;
+      case BTN.DPAD_D:  move('down');       break;
+      case BTN.DPAD_L:  move('left');       break;
+      case BTN.DPAD_R:  move('right');      break;
+      case BTN.A:       activate();         break;
+      case BTN.RB:      cycleTabRight();    break;
+      case BTN.LB:      cycleTabLeft();     break;
+      case BTN.START:   activate();         break;
     }
   }
 
@@ -213,7 +283,6 @@
 
     pad.buttons.forEach((btn, i) => handleButton(i, btn.pressed));
 
-    // Left stick
     const ax = pad.axes[0] || 0;
     const ay = pad.axes[1] || 0;
     if (!stickCooldown && (Math.abs(ax) > DEADZONE || Math.abs(ay) > DEADZONE)) {
@@ -223,28 +292,11 @@
     }
   }
 
-  // ─── Tab cycling with bumpers ──────────────────
-  function cycleTabRight() {
-    const navItems = document.querySelectorAll('.nav-item');
-    const current  = document.querySelector('.nav-item.active');
-    const idx      = Array.from(navItems).indexOf(current);
-    const next     = navItems[(idx + 1) % navItems.length];
-    if (next) next.click();
-  }
-
-  function cycleTabLeft() {
-    const navItems = document.querySelectorAll('.nav-item');
-    const current  = document.querySelector('.nav-item.active');
-    const idx      = Array.from(navItems).indexOf(current);
-    const prev     = navItems[(idx - 1 + navItems.length) % navItems.length];
-    if (prev) prev.click();
-  }
-
   // ─── Observe tab changes ───────────────────────
   const observer = new MutationObserver(mutations => {
     for (const m of mutations) {
       if (m.target.classList && m.target.classList.contains('tab-panel')) {
-        setTimeout(rebuildFocusables, 50); // let CSS animate first
+        setTimeout(rebuildFocusables, 50);
         break;
       }
     }
@@ -253,7 +305,7 @@
     observer.observe(p, { attributes: true, attributeFilter: ['class'] });
   });
 
-  // ─── Gamepad connection events ─────────────────
+  // ─── Gamepad connection ────────────────────────
   window.addEventListener('gamepadconnected', e => {
     console.log(`%c Gamepad connected: ${e.gamepad.id} `, 'background:#52b043;color:#fff;padding:2px 6px;border-radius:3px;');
     if (!pollInterval) pollInterval = setInterval(pollGamepads, GAMEPAD_POLL_MS);
@@ -263,13 +315,9 @@
     console.log(`Gamepad disconnected: ${e.gamepad.id}`);
     const pads = navigator.getGamepads ? navigator.getGamepads() : [];
     const anyConnected = Array.from(pads).some(p => p && p.connected);
-    if (!anyConnected && pollInterval) {
-      clearInterval(pollInterval);
-      pollInterval = null;
-    }
+    if (!anyConnected && pollInterval) { clearInterval(pollInterval); pollInterval = null; }
   });
 
-  // Start polling if gamepad already connected (e.g., page reload)
   if (getActiveGamepad()) {
     pollInterval = setInterval(pollGamepads, GAMEPAD_POLL_MS);
   }

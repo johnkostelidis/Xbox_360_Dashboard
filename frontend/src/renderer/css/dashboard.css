@@ -149,6 +149,12 @@ html, body {
 
 .nav-item:hover { color: rgba(255,255,255,0.8); }
 
+.nav-item.nav-focused {
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+}
+
 .nav-item.active {
   color: var(--text-primary);
   font-weight: 400;
