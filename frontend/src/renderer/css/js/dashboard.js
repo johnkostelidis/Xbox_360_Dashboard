@@ -233,7 +233,7 @@
     });
   }
 
-  if (appBackBtn)    appBackBtn.addEventListener('click',    closeApp);
+  if (appBackBtn)    appBackBtn.addEventListener('click',    () => { window.playBackSound && window.playBackSound(); closeApp(); });
   if (appNavBack)    appNavBack.addEventListener('click',    () => { try { if (appWebview.canGoBack())    appWebview.goBack();    } catch(e){} });
   if (appNavForward) appNavForward.addEventListener('click', () => { try { if (appWebview.canGoForward()) appWebview.goForward(); } catch(e){} });
   if (appNavReload)  appNavReload.addEventListener('click',  () => { try { appWebview.reload(); }          catch(e){} });
@@ -288,6 +288,7 @@
         openApp('Xbox LIVE Sign In', 'https://login.live.com');
         break;
       case 'settings:back':
+        window.playBackSound && window.playBackSound();
         closeSettingsDetail();
         break;
       case 'settings:Turn Off':
@@ -334,7 +335,7 @@
     `).join('');
     main.hidden   = true;
     detail.hidden = false;
-    setTimeout(() => window.rebuildFocusables && window.rebuildFocusables(), 50);
+    setTimeout(() => window.focusFirstFocusable && window.focusFirstFocusable(), 50);
   }
 
   function closeSettingsDetail() {
@@ -410,17 +411,17 @@
   function doBingSearch(type) {
     const q = bingInput ? bingInput.value.trim() : '';
     const base = {
-      search: 'https://www.bing.com/search?q=',
-      images: 'https://www.bing.com/images/search?q=',
-      news:   'https://www.bing.com/news/search?q=',
-      videos: 'https://www.bing.com/videos/search?q=',
+      search: 'https://www.google.com/search?q=',
+      images: 'https://www.google.com/images/search?q=',
+      news:   'https://www.google.com/news/search?q=',
+      videos: 'https://www.google.com/videos/search?q=',
     };
     const t = type || 'search';
     if (q) {
       openApp('Bing', (base[t] || base.search) + encodeURIComponent(q));
     } else {
-      const fallback = { search: 'https://www.bing.com', images: 'https://www.bing.com/images', news: 'https://www.bing.com/news', videos: 'https://www.bing.com/videos' };
-      openApp('Bing', fallback[t] || 'https://www.bing.com');
+      const fallback = { search: 'https://www.google.com', images: 'https://www.goolge.com/images', news: 'https://www.google.com/news', videos: 'https://www.google.com/videos' };
+      openApp('Bing', fallback[t] || 'https://www.google.com');
     }
   }
 
@@ -442,6 +443,16 @@
   if (winMinimize)   winMinimize.addEventListener('click',   () => window.xboxAPI && window.xboxAPI.minimizeWindow());
   if (winFullscreen) winFullscreen.addEventListener('click', () => window.xboxAPI && window.xboxAPI.toggleFullscreen());
   if (winClose)      winClose.addEventListener('click',      () => window.xboxAPI && window.xboxAPI.closeWindow());
+
+  // ─── Content back hook (called by controller goBack) ──
+  window.handleContentBack = function () {
+    const detail = document.getElementById('settingsDetail');
+    if (detail && !detail.hidden) {
+      closeSettingsDetail();
+      return true;
+    }
+    return false;
+  };
 
   // ─── Init ──────────────────────────────────────
   loadGames();

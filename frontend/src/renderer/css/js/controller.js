@@ -39,6 +39,18 @@
     HOME:   16,
   };
 
+  // ─── Sounds ────────────────────────────────────
+  const sndSelect  = new Audio('../../../sounds/inside_container_selection.mp3');
+  sndSelect.volume = 0.8;
+  const sndBetween  = new Audio('../../../sounds/between_containers.mp3');
+  sndBetween.volume = 0.8;
+  const sndToTab  = new Audio('../../../sounds/container_to_tab.mp3');
+  sndToTab.volume = 0.8;
+  const sndEnter  = new Audio('../../../sounds/enter.mp3');
+  sndEnter.volume = 0.8;
+  const sndBack   = new Audio('../../../sounds/back.mp3');
+  sndBack.volume  = 0.8;
+
   // ─── State ────────────────────────────────────
   let zone         = 'content'; // 'nav' | 'content'
   let focusedIndex = 0;         // index within content focusables
@@ -67,6 +79,8 @@
     zone = 'nav';
     focusables.forEach(el => el.classList.remove('focused'));
     setNavFocus(activeNavIndex());
+    sndToTab.currentTime = 0;
+    sndToTab.play().catch(() => {});
   }
 
   function exitNav() {
@@ -74,6 +88,8 @@
     navItems().forEach(el => el.classList.remove('nav-focused'));
     focusedIndex = 0;
     if (focusables.length > 0) setFocus(0);
+    sndSelect.currentTime = 0;
+    sndSelect.play().catch(() => {});
   }
 
   // ─── Content container ─────────────────────────
@@ -154,8 +170,8 @@
     if (zone === 'nav') {
       const idx   = activeNavIndex();
       const items = navItems();
-      if (dir === 'left'  && idx > 0)                { items[idx - 1].click(); setNavFocus(idx - 1); }
-      else if (dir === 'right' && idx < items.length - 1) { items[idx + 1].click(); setNavFocus(idx + 1); }
+      if (dir === 'left'  && idx > 0)                { items[idx - 1].click(); setNavFocus(idx - 1); sndBetween.currentTime = 0; sndBetween.play().catch(() => {}); }
+      else if (dir === 'right' && idx < items.length - 1) { items[idx + 1].click(); setNavFocus(idx + 1); sndBetween.currentTime = 0; sndBetween.play().catch(() => {}); }
       else if (dir === 'down') { exitNav(); }
       // up: do nothing — already at top
       return;
@@ -165,6 +181,8 @@
     const next = findNearest(dir);
     if (next !== focusedIndex) {
       setFocus(next);
+      sndSelect.currentTime = 0;
+      sndSelect.play().catch(() => {});
     } else {
       if      (dir === 'up')    enterNav();
       else if (dir === 'left')  cycleTabLeft();
@@ -180,37 +198,56 @@
       return;
     }
     const el = focusables[focusedIndex];
-    if (el) el.click();
+    if (el) {
+      sndEnter.currentTime = 0;
+      sndEnter.play().catch(() => {});
+      el.click();
+    }
   }
 
   function goBack() {
+    sndBack.currentTime = 0;
+    sndBack.play().catch(() => {});
     if (window.isAppOpen && window.closeApp) {
       window.closeApp();
       return;
     }
     if (zone === 'nav') {
-      exitNav();
+      const homeTab = document.querySelector('.nav-item[data-tab="home"]');
+      if (homeTab) homeTab.click();
       return;
     }
-    const homeTab = document.querySelector('.nav-item[data-tab="home"]');
-    if (homeTab) homeTab.click();
+    // If a subfolder is open (e.g. settings detail), close it first
+    if (window.handleContentBack && window.handleContentBack()) return;
+    // Otherwise go up to the tab bar
+    enterNav();
   }
 
   // ─── Tab cycling (no wrap) ─────────────────────
   function cycleTabRight() {
     const items = navItems();
     const idx   = activeNavIndex();
-    if (idx < items.length - 1) items[idx + 1].click();
+    if (idx < items.length - 1) {
+      items[idx + 1].click();
+      sndBetween.currentTime = 0;
+      sndBetween.play().catch(() => {});
+    }
   }
 
   function cycleTabLeft() {
     const items = navItems();
     const idx   = activeNavIndex();
-    if (idx > 0) items[idx - 1].click();
+    if (idx > 0) {
+      items[idx - 1].click();
+      sndBetween.currentTime = 0;
+      sndBetween.play().catch(() => {});
+    }
   }
 
   // ─── Keyboard ──────────────────────────────────
   document.addEventListener('keydown', e => {
+    const inInput = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA';
+    if (e.key === 'Backspace' && inInput) return;
     if (e.key === 'Backspace' || e.key === 'Escape') {
       e.preventDefault();
       goBack();
@@ -324,6 +361,8 @@
 
   // ─── Init ──────────────────────────────────────
   window.rebuildFocusables = rebuildFocusables;
+  window.focusFirstFocusable = function () { focusedIndex = 0; rebuildFocusables(); };
+  window.playBackSound = function () { sndBack.currentTime = 0; sndBack.play().catch(() => {}); };
   setTimeout(rebuildFocusables, 100);
 
 })();
