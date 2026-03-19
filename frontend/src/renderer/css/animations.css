@@ -1,3 +1,105 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ===================================================
    Xbox 360 Metro Dashboard - Animations
    =================================================== */
@@ -18,18 +120,58 @@
   animation: tileEntrance 0.3s ease both;
 }
 .tile-close-tray  { animation-delay: 0.05s; }
-.tile-spotlight   { animation-delay: 0.10s; }
-.tile-xbox-canada { animation-delay: 0.15s; }
-.tile-quickplay   { animation-delay: 0.20s; }
-.tile-ad          { animation-delay: 0.25s; }
+.tile-spotlight   { animation-delay: 0.05s; }
+.tile-xbox-canada { animation-delay: 0.10s; }
+.tile-quickplay   { animation-delay: 0.15s; }
+.tile-ad          { animation-delay: 0.20s; }
+
+/* Staggered tile entrances for odd/even tiles */
+.metro-tile:nth-child(odd) {
+  animation: tileEntranceStagger 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.metro-tile:nth-child(even) {
+  animation: tileEntranceStagger 0.3s cubic-bezier(0.35, 0.5, 0.25, 1) both;
+}
+
+@keyframes tileEntranceStagger {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(15px) rotateX(2deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0) rotateX(0);
+  }
+}
+
+/* Spotlight tile "fanfare" entrance */
+.tile-spotlight {
+  animation: spotlightEntrance 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes spotlightEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) translateY(40px) rotateY(-5deg);
+    filter: brightness(0.4);
+  }
+  70% {
+    transform: scale(1.03) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
 
 .side-panel .side-item:nth-child(1) { animation: sideEntrance 0.3s 0.3s ease both; }
 .side-panel .side-item:nth-child(2) { animation: sideEntrance 0.3s 0.35s ease both; }
 .side-panel .side-item:nth-child(3) { animation: sideEntrance 0.3s 0.4s ease both; }
 
 @keyframes sideEntrance {
-  from { opacity: 0; transform: translateX(20px); }
-  to   { opacity: 1; transform: translateX(0); }
+  from { opacity: 0; transform: translateX(30px) scale(0.95); }
+  to   { opacity: 1; transform: translateX(0) scale(1); }
 }
 
 /* Nav tab entrance */
@@ -50,12 +192,21 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Xbox sphere breathing glow */
+/* Xbox sphere breathing glow + rotation */
 @keyframes spherePulse {
   0%, 100% { filter: drop-shadow(0 0 20px rgba(82,176,67,0.25)); }
   50%       { filter: drop-shadow(0 0 40px rgba(82,176,67,0.5)); }
 }
-.xbox-sphere { animation: spherePulse 3s ease-in-out infinite; }
+
+@keyframes sphereRotate {
+  from { transform: rotateX(0deg) rotateY(0deg); }
+  to   { transform: rotateX(10deg) rotateY(360deg); }
+}
+
+.xbox-sphere { 
+  animation: spherePulse 3s ease-in-out infinite,
+             sphereRotate 20s linear infinite; 
+}
 
 /* Spotlight dots auto-cycle */
 @keyframes dotPop {
@@ -67,17 +218,47 @@
 
 /* Tile focus ripple */
 @keyframes focusRipple {
-  from { box-shadow: 0 0 0 0 rgba(255,255,255,0.4); }
-  to   { box-shadow: 0 0 0 6px rgba(255,255,255,0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(255,255,255,0.4);
+    transform: scale(1.018);
+  }
+  100% {
+    box-shadow: 0 0 0 6px rgba(255,255,255,0);
+    transform: scale(1.018);
+  }
 }
-.metro-tile:focus { animation: tileEntrance 0s, focusRipple 0.35s ease-out; }
+
+.metro-tile:focus { animation: tileEntrance 0s, focusRipple 0.3s ease-out both; }
+
+/* Tile pop on selection */
+.metro-tile.selected,
+.metro-tile.focused.selected {
+  animation: tilePop 0.15s ease-out both;
+}
+
+@keyframes tilePop {
+  0%   { transform: scale(1.05); }
+  100% { transform: scale(1.018); }
+}
+
+/* Tile hover bounce effect */
+.metro-tile:hover {
+  animation: tileHoverBounce 0.3s ease-out both;
+}
+
+@keyframes tileHoverBounce {
+  0% { transform: scale(1.018); }
+  40% { transform: scale(1.04); }
+  60% { transform: scale(1.02); }
+  100% { transform: scale(1.018); }
+}
 
 /* Controller hint bar entrance */
 .controller-hints {
-  animation: slideUp 0.3s 0.4s ease both;
+  animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.4s ease both;
 }
 @keyframes slideUp {
-  from { transform: translateY(100%); opacity: 0; }
+  from { transform: translateY(110%); opacity: 0; }
   to   { transform: translateY(0); opacity: 1; }
 }
 
@@ -90,13 +271,22 @@
   to   { transform: translateY(0); opacity: 1; }
 }
 
-/* Tab switch animation */
-.tab-panel.active {
-  animation: fadeSlideIn 0.18s ease both;
-}
-@keyframes fadeSlideIn {
-  from { opacity: 0; transform: translateX(16px); }
+/* Tab switch animations — simultaneous enter + exit */
+@keyframes tabEnterFromRight {
+  from { opacity: 0; transform: translateX(60px); }
   to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes tabEnterFromLeft {
+  from { opacity: 0; transform: translateX(-60px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes tabExitToLeft {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(-60px); }
+}
+@keyframes tabExitToRight {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(60px); }
 }
 
 /* Crowd particle shimmer on spotlight */
@@ -106,4 +296,53 @@
 }
 .spotlight-crowd::before {
   animation: crowdShimmer 4s ease-in-out infinite;
+}
+
+/* Toast notification entrance */
+@keyframes toastSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(30px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+.toast {
+  animation: toastHidden 0s both;
+}
+
+.toast.show {
+  animation: toastSlideIn 0.3s ease-out both;
+}
+
+@keyframes toastHidden {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(30px) scale(0.9);
+  }
+}
+
+/* App splash loading dots */
+.app-splash-dots span {
+  animation: splashBounce 1s ease-in-out infinite;
+  opacity: 0.6;
+}
+.app-splash-dots span:nth-child(2) { animation-delay: 0.17s; }
+.app-splash-dots span:nth-child(3) { animation-delay: 0.34s; }
+@keyframes splashBounce {
+  0%, 80%, 100% { transform: scale(0.65); }
+  40%            { transform: scale(1); }
+}
+
+/* Loading bar indeterminate animation */
+@keyframes appLoadSlide {
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(380%); }
 }

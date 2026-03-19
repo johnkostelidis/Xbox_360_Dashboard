@@ -79,25 +79,57 @@
     activeTab: 'home',
     spotlightIndex: 0,
     spotlightTimer: null,
+    transitioning: false,
   };
+
+  // Tab order used to determine slide direction
+  const TAB_ORDER = ['bing', 'home', 'social', 'video', 'games', 'music', 'apps', 'settings'];
 
   // ─── DOM refs ──────────────────────────────────
   const navItems    = document.querySelectorAll('.nav-item');
   const tabPanels   = document.querySelectorAll('.tab-panel');
   const spotDots    = document.querySelectorAll('.spotlight-dots .dot');
+  const dashContent = document.getElementById('dashboardContent');
 
   // ─── Tab Navigation ────────────────────────────
+  const TRANSITION_MS = 280;
+
   function switchTab(tabName) {
-    if (state.activeTab === tabName) return;
+    if (state.activeTab === tabName || state.transitioning) return;
+
+    const oldIdx = TAB_ORDER.indexOf(state.activeTab);
+    const newIdx = TAB_ORDER.indexOf(tabName);
+    const goingRight = newIdx > oldIdx;
+
+    const outgoing = document.getElementById(`tab-${state.activeTab}`);
+    const incoming = document.getElementById(`tab-${tabName}`);
+
     state.activeTab = tabName;
+    state.transitioning = true;
 
     navItems.forEach(item => {
       item.classList.toggle('active', item.dataset.tab === tabName);
     });
 
-    tabPanels.forEach(panel => {
-      panel.classList.toggle('active', panel.id === `tab-${tabName}`);
-    });
+    // Slide outgoing panel out
+    if (outgoing) {
+      outgoing.classList.remove('active');
+      outgoing.classList.add(goingRight ? 'tab-exit-left' : 'tab-exit-right');
+    }
+
+    // Slide incoming panel in
+    if (incoming) {
+      incoming.classList.add(goingRight ? 'tab-enter-right' : 'tab-enter-left');
+    }
+
+    setTimeout(() => {
+      if (outgoing) outgoing.classList.remove('tab-exit-left', 'tab-exit-right');
+      if (incoming) {
+        incoming.classList.remove('tab-enter-right', 'tab-enter-left');
+        incoming.classList.add('active');
+      }
+      state.transitioning = false;
+    }, TRANSITION_MS);
   }
 
   navItems.forEach(item => {

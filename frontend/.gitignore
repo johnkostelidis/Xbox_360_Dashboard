@@ -1,5 +1,6 @@
 # Dependencies - never commit these
 node_modules/
+frame_analysis/
 
 # Build outputs
 dist/

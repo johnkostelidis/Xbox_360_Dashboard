@@ -178,16 +178,31 @@ html, body {
 
 /* ─── Tab Panels ──────────────────────────────── */
 .tab-panel {
-  display: none;
-  width: 100%; height: 100%;
+  position: absolute;
+  inset: 0;
   padding: 0 60px;
-  animation: fadeSlideIn 0.2s ease;
+  display: none;
 }
-.tab-panel.active { display: block; }
+.tab-panel.active {
+  display: block;
+}
 
-@keyframes fadeSlideIn {
-  from { opacity: 0; transform: translateX(20px); }
-  to   { opacity: 1; transform: translateX(0); }
+/* Enter/exit classes applied during tab transitions */
+.tab-panel.tab-enter-right {
+  display: block;
+  animation: tabEnterFromRight 0.28s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.tab-panel.tab-enter-left {
+  display: block;
+  animation: tabEnterFromLeft 0.28s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.tab-panel.tab-exit-left {
+  display: block;
+  animation: tabExitToLeft 0.28s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.tab-panel.tab-exit-right {
+  display: block;
+  animation: tabExitToRight 0.28s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
 /* ─── Metro Grid (Home Tab) ───────────────────── */
