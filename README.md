@@ -59,6 +59,12 @@ npm run dev
 | LB / RB          | Cycle tabs left/right |
 | F11              | Toggle fullscreen   |
 
+## Screenshots
+
+![Home](assets/homepage_prototype.png)
+![Search](assets/search_prototype.png)
+![App](assets/app_prototype.png)
+
 ## Features (Frontend)
 
 - [x] Metro tile grid (Home tab)
