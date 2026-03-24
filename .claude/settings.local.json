@@ -6,7 +6,8 @@
       "Bash(where ffmpeg:*)",
       "Bash(powershell -command \"Get-Command ffmpeg -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source\")",
       "Bash(powershell -command \":*)",
-      "Bash(powershell -command \"Get-ChildItem ''''C:/Users/John/AppData/Local/Temp/'''' | Where-Object {$_me -like ''''frame*''''} | Select-Object Name\")"
+      "Bash(powershell -command \"Get-ChildItem ''''C:/Users/John/AppData/Local/Temp/'''' | Where-Object {$_me -like ''''frame*''''} | Select-Object Name\")",
+      "Bash(grep -r \"store\\\\|types\" frontend/src/renderer/*.tsx --include=\"*.tsx\")"
     ]
   }
 }

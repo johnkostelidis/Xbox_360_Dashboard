@@ -94,6 +94,7 @@
 
   // ─── Content container ─────────────────────────
   function rebuildFocusables() {
+    if (window.isMyAppsOpen) return;
     focusables = Array.from(
       document.querySelectorAll('.tab-panel.active .focusable')
     ).filter(el => {
@@ -111,6 +112,9 @@
       setNavFocus(activeNavIndex());
     } else if (focusables.length > 0) {
       setFocus(focusedIndex);
+    } else {
+      // No focusable content in this tab — auto-enter nav bar
+      enterNav();
     }
   }
 
@@ -167,6 +171,7 @@
 
   // ─── Move — dispatches by active container ─────
   function move(dir) {
+    if (window.isMyAppsOpen && window.myAppsMove) { window.myAppsMove(dir); return; }
     if (zone === 'nav') {
       const idx   = activeNavIndex();
       const items = navItems();
@@ -192,6 +197,11 @@
   }
 
   function activate() {
+    if (window.isMyAppsOpen) {
+      const focused = document.querySelector('.myapps-panel.active .focusable.focused');
+      if (focused) { sndEnter.currentTime = 0; sndEnter.play().catch(() => {}); focused.click(); }
+      return;
+    }
     if (zone === 'nav') {
       // Enter key on a nav item just moves down into content
       exitNav();
@@ -210,6 +220,10 @@
     sndBack.play().catch(() => {});
     if (window.isAppOpen && window.closeApp) {
       window.closeApp();
+      return;
+    }
+    if (window.isMyAppsOpen && window.closeMyApps) {
+      window.closeMyApps();
       return;
     }
     if (zone === 'nav') {
@@ -300,8 +314,14 @@
       case BTN.DPAD_L:  move('left');       break;
       case BTN.DPAD_R:  move('right');      break;
       case BTN.A:       activate();         break;
-      case BTN.RB:      cycleTabRight();    break;
-      case BTN.LB:      cycleTabLeft();     break;
+      case BTN.RB:
+        if (window.isMyAppsOpen && window.myAppsTabRight) { window.myAppsTabRight(); break; }
+        cycleTabRight();
+        break;
+      case BTN.LB:
+        if (window.isMyAppsOpen && window.myAppsTabLeft) { window.myAppsTabLeft(); break; }
+        cycleTabLeft();
+        break;
       case BTN.START:   activate();         break;
     }
   }

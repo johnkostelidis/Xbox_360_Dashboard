@@ -185,6 +185,36 @@ html, body {
 }
 .tab-panel.active {
   display: block;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.tab-panel.active::-webkit-scrollbar { display: none; }
+
+/* Video, music, and apps tabs: center their grid via flex */
+#tab-video.active,
+#tab-video.tab-enter-right,
+#tab-video.tab-enter-left,
+#tab-video.tab-exit-left,
+#tab-video.tab-exit-right,
+#tab-music.active,
+#tab-music.tab-enter-right,
+#tab-music.tab-enter-left,
+#tab-music.tab-exit-left,
+#tab-music.tab-exit-right,
+#tab-apps.active,
+#tab-apps.tab-enter-right,
+#tab-apps.tab-enter-left,
+#tab-apps.tab-exit-left,
+#tab-apps.tab-exit-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#tab-video .apps-grid,
+#tab-music .apps-grid,
+#tab-apps .apps-grid {
+  height: auto;
 }
 
 /* Enter/exit classes applied during tab transitions */
@@ -1216,6 +1246,301 @@ html, body {
   left: 8px;
   right: 8px;
 }
+
+.app-recent-empty {
+  cursor: default;
+  pointer-events: none;
+}
+.app-recent-empty:hover { filter: none; }
+.app-recent-empty.focused,
+.app-recent-empty:focus { outline: none; transform: none; }
+
+.app-tile-placeholder {
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.6;
+}
+.app-tile-placeholder:hover { filter: none; }
+
+/* ══════════════════════════════════════════════════
+   MY APPS CONTAINER
+   ══════════════════════════════════════════════════ */
+
+.myapps-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+}
+
+/* Loading phase */
+.myapps-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(14, 14, 14, 0);
+  transition: background 0.55s ease;
+  pointer-events: none;
+}
+.myapps-overlay.myapps-is-loading .myapps-loading {
+  background: rgba(14, 14, 14, 1);
+  pointer-events: all;
+}
+.myapps-spinner {
+  width: 36px;
+  height: 36px;
+  border: 1.8px solid rgba(255,255,255,0.1);
+  border-top-color: rgba(255,255,255,0.6);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.4s ease 0.3s;
+  animation: myapps-spin 0.85s linear infinite;
+}
+.myapps-overlay.myapps-is-loading .myapps-spinner { opacity: 1; }
+@keyframes myapps-spin { to { transform: rotate(360deg); } }
+.myapps-loading-hint {
+  position: absolute;
+  bottom: 22px;
+  left: 28px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-main);
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+  opacity: 0;
+  transition: opacity 0.35s ease 0.6s;
+}
+.myapps-overlay.myapps-is-loading .myapps-loading-hint { opacity: 1; }
+
+/* Content phase */
+.myapps-content {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 120% 70% at 50% 100%, #3c3c3c 0%, #131313 50%, #0b0b0b 100%);
+  opacity: 0;
+  transform: scale(0.975);
+  transition: opacity 0.36s ease, transform 0.36s ease;
+  pointer-events: none;
+}
+.myapps-content.myapps-content-visible {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: all;
+}
+
+/* Container label (top-right) */
+.myapps-label {
+  position: absolute;
+  top: 15px;
+  right: 28px;
+  font-family: var(--font-main);
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.42);
+  letter-spacing: 1.2px;
+  text-transform: lowercase;
+}
+
+/* Sub-navigation (same position as main nav) */
+.myapps-nav {
+  position: absolute;
+  top: 52px;
+  left: 0;
+  right: 0;
+  padding: 0 0 0 60px;
+}
+.myapps-nav ul { display: flex; list-style: none; gap: 0; }
+.myapps-nav-item {
+  font-family: var(--font-main);
+  font-size: 13px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.3);
+  padding: 8px 22px 8px 0;
+  cursor: pointer;
+  transition: color 0.15s ease;
+  letter-spacing: 0.25px;
+  white-space: nowrap;
+  user-select: none;
+}
+.myapps-nav-item.active { color: rgba(255,255,255,0.95); font-weight: 400; }
+.myapps-nav-item:hover  { color: rgba(255,255,255,0.65); }
+.myapps-nav-item.myapps-nav-focused {
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+  padding: 8px 10px 8px 8px;
+}
+
+/* Panels wrapper */
+.myapps-panels {
+  position: absolute;
+  top: 88px;
+  left: 0;
+  right: 0;
+  bottom: 50px;
+  overflow: hidden;
+}
+
+/* Individual panel */
+.myapps-panel {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.myapps-panel.active          { display: flex; }
+.myapps-panel.myapps-enter-right {
+  display: flex;
+  animation: tabEnterFromRight 0.26s cubic-bezier(0.4,0,0.2,1) both;
+}
+.myapps-panel.myapps-enter-left  {
+  display: flex;
+  animation: tabEnterFromLeft  0.26s cubic-bezier(0.4,0,0.2,1) both;
+}
+.myapps-panel.myapps-exit-left   {
+  display: flex;
+  animation: tabExitToLeft     0.26s cubic-bezier(0.4,0,0.2,1) both;
+}
+.myapps-panel.myapps-exit-right  {
+  display: flex;
+  animation: tabExitToRight    0.26s cubic-bezier(0.4,0,0.2,1) both;
+}
+
+/* Tile row */
+.myapps-tile-row {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  height: 276px;
+  overflow: hidden;
+}
+
+/* Hero tile */
+.myapps-hero {
+  width: 280px;
+  height: 276px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 2px;
+  transition: filter 0.1s ease, transform 0.1s ease, outline 0.08s ease;
+  cursor: pointer;
+  outline: none;
+}
+.myapps-hero.focused,
+.myapps-hero:focus {
+  outline: 2px solid var(--xbox-green);
+  transform: scale(1.02);
+}
+.myapps-hero:hover  { filter: brightness(1.18); }
+.myapps-hero:active { transform: scale(0.97); filter: brightness(0.88); }
+.myapps-hero-brand {
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 38px;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+.myapps-hero-label {
+  position: absolute;
+  bottom: 16px;
+  left: 14px;
+  font-size: 13px;
+  font-weight: 400;
+  color: white;
+}
+
+/* Small tile column */
+.myapps-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* Small tile */
+.myapps-small {
+  width: 135px;
+  height: 135px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  position: relative;
+  border-radius: 2px;
+  transition: filter 0.1s ease, transform 0.1s ease, outline 0.08s ease;
+  cursor: pointer;
+  outline: none;
+}
+.myapps-small.focused,
+.myapps-small:focus {
+  outline: 2px solid var(--xbox-green);
+  transform: scale(1.03);
+}
+.myapps-small:hover  { filter: brightness(1.18); }
+.myapps-small:active { transform: scale(0.97); filter: brightness(0.88); }
+
+/* Empty / coming soon tiles */
+.myapps-empty-tile {
+  background: #1a1a1a !important;
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.35;
+}
+.myapps-coming-label {
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.25);
+  text-align: center;
+  line-height: 1.5;
+  text-transform: lowercase;
+}
+
+/* Bottom hints */
+.myapps-hints {
+  position: absolute;
+  bottom: 14px;
+  left: 28px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.myapps-hint {
+  font-family: var(--font-main);
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Controller button badges */
+.ctrl-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  font-size: 9px;
+  font-weight: 700;
+  font-family: var(--font-main);
+  color: #000;
+  flex-shrink: 0;
+}
+.ctrl-a { background: #52b043; }
+.ctrl-b { background: #d32f2f; color: white; }
+.ctrl-x { background: #1565c0; color: white; }
+.ctrl-y { background: #f9a825; }
 
 /* ══════════════════════════════════════════════════
    APP OVERLAY (webview launcher)

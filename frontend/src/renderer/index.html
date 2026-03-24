@@ -663,92 +663,64 @@
     <section class="tab-panel" id="tab-apps">
       <div class="apps-grid">
 
-        <div class="metro-tile app-tile focusable" data-action="openApp:Internet Explorer:https://www.google.com" tabindex="0" aria-label="Internet Explorer" style="background:#1565c0">
+        <!-- My Apps -->
+        <div class="metro-tile app-tile focusable" data-action="myApps" tabindex="0" aria-label="My Apps" style="background:#52b043">
           <div class="app-tile-icon">
-            <svg viewBox="0 0 32 32" width="36" height="36" fill="none" stroke="white" stroke-width="1.5">
-              <circle cx="16" cy="16" r="13"/>
-              <ellipse cx="16" cy="16" rx="7" ry="13"/>
-              <line x1="3" y1="16" x2="29" y2="16"/>
-              <line x1="5" y1="9"  x2="27" y2="9"/>
-              <line x1="5" y1="23" x2="27" y2="23"/>
+            <svg viewBox="0 0 32 32" width="34" height="34" fill="none" stroke="white" stroke-width="1.8">
+              <rect x="3" y="3" width="11" height="11"/>
+              <rect x="18" y="3" width="11" height="11"/>
+              <rect x="3" y="18" width="11" height="11"/>
+              <rect x="18" y="18" width="11" height="11"/>
             </svg>
           </div>
-          <div class="app-tile-label">Internet Explorer</div>
-          <div class="app-tile-sub">Browse the web</div>
+          <div class="app-tile-label">My Apps</div>
         </div>
 
-        <div class="metro-tile app-tile focusable" data-action="openApp:Netflix:https://www.netflix.com" tabindex="0" aria-label="Netflix" style="background:#8b0000">
-          <div class="app-tile-brand" style="color:#e50914">NETFLIX</div>
-          <div class="app-tile-label">Netflix</div>
-          <div class="app-tile-sub">Movies &amp; TV</div>
-        </div>
+        <!-- Recent App Slots (row 1, cols 2-4) -->
+        <div class="metro-tile app-tile app-recent-slot focusable" id="recentApp0" tabindex="0"></div>
+        <div class="metro-tile app-tile app-recent-slot focusable" id="recentApp1" tabindex="0"></div>
+        <div class="metro-tile app-tile app-recent-slot focusable" id="recentApp2" tabindex="0"></div>
 
-        <div class="metro-tile app-tile focusable" data-action="openApp:YouTube:https://www.youtube.com" tabindex="0" aria-label="YouTube" style="background:#181818">
-          <div class="app-tile-icon">
-            <svg viewBox="0 0 32 22" width="44" height="30">
-              <rect width="32" height="22" rx="4" fill="#ff0000"/>
-              <polygon points="13,5 13,17 23,11" fill="white"/>
-            </svg>
-          </div>
-          <div class="app-tile-label">YouTube</div>
-          <div class="app-tile-sub">Videos</div>
-        </div>
-
-        <div class="metro-tile app-tile focusable" data-action="openApp:Hulu:https://www.hulu.com" tabindex="0" aria-label="Hulu" style="background:#1a3a1a">
-          <div class="app-tile-brand" style="color:#3dba4e;font-size:26px">hulu</div>
-          <div class="app-tile-label">Hulu</div>
-          <div class="app-tile-sub">Streaming</div>
-        </div>
-
-        <div class="metro-tile app-tile focusable" data-action="openApp:ESPN:https://www.espn.com" tabindex="0" aria-label="ESPN" style="background:#aa2200">
-          <div class="app-tile-brand" style="color:white;font-style:italic">ESPN</div>
-          <div class="app-tile-label">ESPN</div>
-          <div class="app-tile-sub">Sports</div>
-        </div>
-
-        <div class="metro-tile app-tile focusable" data-action="openApp:Spotify:https://open.spotify.com" tabindex="0" aria-label="Spotify" style="background:#1a3a1a">
-          <div class="app-tile-icon">
-            <svg viewBox="0 0 32 32" width="36" height="36">
-              <circle cx="16" cy="16" r="15" fill="#1db954"/>
-              <path d="M8 20.5c4.5-1.5 9.5-1.5 14 0" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
-              <path d="M7 16c5-2 11-2 16 0"           stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
-              <path d="M9 11.5c4-1.5 9-1.5 13 0"      stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
-            </svg>
-          </div>
-          <div class="app-tile-label">Spotify</div>
-          <div class="app-tile-sub">Music</div>
-        </div>
-
-        <div class="metro-tile app-tile focusable" data-action="openApp:Twitter:https://x.com" tabindex="0" aria-label="Twitter" style="background:#1da1f2">
+        <!-- Apps Marketplace -->
+        <div class="metro-tile app-tile focusable" data-action="appsMarketplace" tabindex="0" aria-label="Apps Marketplace" style="background:#52b043">
           <div class="app-tile-icon">
             <svg viewBox="0 0 32 32" width="34" height="34" fill="white">
-              <path d="M30 7a12 12 0 01-3.4.9 6 6 0 002.6-3.3 12 12 0 01-3.8 1.4 6 6 0 00-10.2 5.4A17 17 0 012 6.4a6 6 0 001.8 8A6 6 0 012 13.7v.1a6 6 0 004.8 5.8 6 6 0 01-2.7.1 6 6 0 005.6 4.2 12 12 0 01-7.5 2.6H1a17 17 0 009.2 2.7c11 0 17-9.1 17-17v-.8A12 12 0 0030 7z"/>
+              <path d="M4 4h24v4H4z" opacity="0.85"/>
+              <path d="M2 8h28v20a2 2 0 01-2 2H4a2 2 0 01-2-2V8z"/>
+              <path d="M12 8v5a4 4 0 008 0V8" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.8"/>
             </svg>
           </div>
-          <div class="app-tile-label">Twitter</div>
-          <div class="app-tile-sub">What's happening</div>
+          <div class="app-tile-label">Apps Marketplace</div>
         </div>
 
-        <div class="metro-tile app-tile focusable" data-action="openApp:Facebook:https://www.facebook.com" tabindex="0" aria-label="Facebook" style="background:#1877f2">
+        <!-- Recent App Slot (row 2, col 2) -->
+        <div class="metro-tile app-tile app-recent-slot focusable" id="recentApp3" tabindex="0"></div>
+
+        <!-- Video placeholder (coming soon) -->
+        <div class="metro-tile app-tile app-tile-placeholder" aria-label="Video" style="background:#1a1a1a">
           <div class="app-tile-icon">
-            <svg viewBox="0 0 32 32" width="32" height="32" fill="white">
-              <path d="M18 32V20h4l1-5h-5v-3c0-1.4.4-2.4 2.4-2.4H23V4.8A34 34 0 0019.2 4.6C15 4.6 12 7.2 12 11.9V15H8v5h4v12h6z"/>
+            <svg viewBox="0 0 32 32" width="36" height="36" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5">
+              <rect x="2" y="6" width="22" height="20" rx="2"/>
+              <polygon points="24,11 30,7 30,25 24,21" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.25)"/>
             </svg>
           </div>
-          <div class="app-tile-label">Facebook</div>
-          <div class="app-tile-sub">Connect</div>
+          <div class="app-tile-label" style="color:rgba(255,255,255,0.3)">Video</div>
+          <div class="app-tile-sub">Coming soon</div>
         </div>
 
-        <div class="metro-tile app-tile focusable" data-action="openApp:Last.fm:https://www.last.fm" tabindex="0" aria-label="Last.fm" style="background:#aa0000">
-          <div class="app-tile-brand" style="color:white;font-size:20px">last.fm</div>
-          <div class="app-tile-label">Last.fm</div>
-          <div class="app-tile-sub">Scrobble</div>
-        </div>
-
-        <div class="metro-tile app-tile focusable" data-action="openApp:Crackle:https://www.crackle.com" tabindex="0" aria-label="Crackle" style="background:#1a1a5a">
-          <div class="app-tile-brand" style="color:#4466ff;font-size:18px">crackle</div>
-          <div class="app-tile-label">Crackle</div>
-          <div class="app-tile-sub">Free Movies &amp; TV</div>
+        <!-- Music placeholder (coming soon) -->
+        <div class="metro-tile app-tile app-tile-placeholder" aria-label="Music" style="background:#1a1a1a">
+          <div class="app-tile-icon">
+            <svg viewBox="0 0 32 32" width="36" height="36" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5">
+              <circle cx="9" cy="24" r="4"/>
+              <circle cx="23" cy="20" r="4"/>
+              <line x1="13" y1="24" x2="13" y2="7"/>
+              <line x1="27" y1="20" x2="27" y2="3"/>
+              <line x1="13" y1="7" x2="27" y2="3"/>
+            </svg>
+          </div>
+          <div class="app-tile-label" style="color:rgba(255,255,255,0.3)">Music</div>
+          <div class="app-tile-sub">Coming soon</div>
         </div>
 
       </div>
@@ -841,6 +813,163 @@
     </div>
 
   </div>
+
+  <!-- MY APPS CONTAINER OVERLAY -->
+  <div id="myAppsOverlay" class="myapps-overlay" hidden>
+
+    <!-- Loading phase: dark screen + spinner -->
+    <div class="myapps-loading" id="myAppsLoading">
+      <div class="myapps-spinner"></div>
+      <div class="myapps-loading-hint">
+        <span class="ctrl-btn ctrl-b">B</span> Back
+      </div>
+    </div>
+
+    <!-- Container content (shown after loading) -->
+    <div class="myapps-content" id="myAppsContent" hidden>
+
+      <!-- Container label top-right -->
+      <div class="myapps-label">my apps</div>
+
+      <!-- Sub-navigation (same position as main nav) -->
+      <nav class="myapps-nav" id="myAppsNav">
+        <ul>
+          <li class="myapps-nav-item active" data-myapps-tab="video-music">video &amp; music</li>
+          <li class="myapps-nav-item" data-myapps-tab="social">social</li>
+          <li class="myapps-nav-item" data-myapps-tab="coming-soon-1">coming soon</li>
+        </ul>
+      </nav>
+
+      <!-- Tab panels -->
+      <div class="myapps-panels" id="myAppsPanels">
+
+        <!-- VIDEO & MUSIC -->
+        <div class="myapps-panel active" id="myapps-panel-video-music">
+          <div class="myapps-tile-row">
+            <div class="myapps-hero metro-tile focusable"
+                 data-action="openApp:Netflix:https://www.netflix.com"
+                 tabindex="0" style="background:#8b0000">
+              <div class="myapps-hero-brand" style="color:#e50914">NETFLIX</div>
+            </div>
+            <div class="myapps-col">
+              <div class="myapps-small metro-tile focusable"
+                   data-action="openApp:YouTube:https://www.youtube.com"
+                   tabindex="0" style="background:#181818">
+                <div class="app-tile-icon">
+                  <svg viewBox="0 0 32 22" width="38" height="26">
+                    <rect width="32" height="22" rx="4" fill="#ff0000"/>
+                    <polygon points="13,5 13,17 23,11" fill="white"/>
+                  </svg>
+                </div>
+                <div class="app-tile-label">YouTube</div>
+              </div>
+              <div class="myapps-small metro-tile focusable"
+                   data-action="openApp:Hulu:https://www.hulu.com"
+                   tabindex="0" style="background:#1a3a1a">
+                <div class="app-tile-brand" style="color:#3dba4e;font-size:20px">hulu</div>
+                <div class="app-tile-label">Hulu</div>
+              </div>
+            </div>
+            <div class="myapps-col">
+              <div class="myapps-small metro-tile focusable"
+                   data-action="openApp:Spotify:https://open.spotify.com"
+                   tabindex="0" style="background:#1a3a1a">
+                <div class="app-tile-icon">
+                  <svg viewBox="0 0 32 32" width="32" height="32">
+                    <circle cx="16" cy="16" r="15" fill="#1db954"/>
+                    <path d="M8 20.5c4.5-1.5 9.5-1.5 14 0" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+                    <path d="M7 16c5-2 11-2 16 0" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+                    <path d="M9 11.5c4-1.5 9-1.5 13 0" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+                  </svg>
+                </div>
+                <div class="app-tile-label">Spotify</div>
+              </div>
+              <div class="myapps-small metro-tile focusable"
+                   data-action="openApp:Last.fm:https://www.last.fm"
+                   tabindex="0" style="background:#aa0000">
+                <div class="app-tile-brand" style="color:white;font-size:15px">last.fm</div>
+                <div class="app-tile-label">Last.fm</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SOCIAL -->
+        <div class="myapps-panel" id="myapps-panel-social">
+          <div class="myapps-tile-row">
+            <div class="myapps-hero metro-tile focusable"
+                 data-action="openApp:Twitter:https://x.com"
+                 tabindex="0" style="background:#1da1f2">
+              <div class="app-tile-icon">
+                <svg viewBox="0 0 32 32" width="60" height="60" fill="white">
+                  <path d="M30 7a12 12 0 01-3.4.9 6 6 0 002.6-3.3 12 12 0 01-3.8 1.4 6 6 0 00-10.2 5.4A17 17 0 012 6.4a6 6 0 001.8 8A6 6 0 012 13.7v.1a6 6 0 004.8 5.8 6 6 0 01-2.7.1 6 6 0 005.6 4.2 12 12 0 01-7.5 2.6H1a17 17 0 009.2 2.7c11 0 17-9.1 17-17v-.8A12 12 0 0030 7z"/>
+                </svg>
+              </div>
+              <div class="myapps-hero-label">Twitter</div>
+            </div>
+            <div class="myapps-col">
+              <div class="myapps-small metro-tile focusable"
+                   data-action="openApp:Facebook:https://www.facebook.com"
+                   tabindex="0" style="background:#1877f2">
+                <div class="app-tile-icon">
+                  <svg viewBox="0 0 32 32" width="30" height="30" fill="white">
+                    <path d="M18 32V20h4l1-5h-5v-3c0-1.4.4-2.4 2.4-2.4H23V4.8A34 34 0 0019.2 4.6C15 4.6 12 7.2 12 11.9V15H8v5h4v12h6z"/>
+                  </svg>
+                </div>
+                <div class="app-tile-label">Facebook</div>
+              </div>
+              <div class="myapps-small metro-tile focusable"
+                   data-action="openApp:Instagram:https://www.instagram.com"
+                   tabindex="0" style="background:linear-gradient(135deg,#405de6,#5851db,#833ab4,#c13584,#e1306c,#fd1d1d)">
+                <div class="app-tile-icon">
+                  <svg viewBox="0 0 32 32" width="30" height="30" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="4" y="4" width="24" height="24" rx="6"/>
+                    <circle cx="16" cy="16" r="6"/>
+                    <circle cx="23" cy="9" r="1.2" fill="white" stroke="none"/>
+                  </svg>
+                </div>
+                <div class="app-tile-label">Instagram</div>
+              </div>
+            </div>
+            <div class="myapps-col">
+              <div class="myapps-small myapps-empty-tile"></div>
+              <div class="myapps-small myapps-empty-tile"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMING SOON 1 -->
+        <div class="myapps-panel" id="myapps-panel-coming-soon-1">
+          <div class="myapps-tile-row">
+            <div class="myapps-hero myapps-empty-tile">
+              <div class="myapps-coming-label">coming<br>soon</div>
+            </div>
+            <div class="myapps-col">
+              <div class="myapps-small myapps-empty-tile"></div>
+              <div class="myapps-small myapps-empty-tile"></div>
+            </div>
+            <div class="myapps-col">
+              <div class="myapps-small myapps-empty-tile"></div>
+              <div class="myapps-small myapps-empty-tile"></div>
+            </div>
+            <div class="myapps-peek-wrap">
+              <div class="myapps-small myapps-peek-tile myapps-empty-tile"></div>
+              <div class="myapps-small myapps-peek-tile myapps-empty-tile"></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /myapps-panels -->
+
+      <!-- Bottom hint bar -->
+      <div class="myapps-hints">
+        <span class="myapps-hint"><span class="ctrl-btn ctrl-a">A</span>Select</span>
+        <span class="myapps-hint"><span class="ctrl-btn ctrl-b">B</span>Back</span>
+        <span class="myapps-hint"><span class="ctrl-btn ctrl-y">Y</span>Search</span>
+      </div>
+
+    </div><!-- /myAppsContent -->
+  </div><!-- /myAppsOverlay -->
 
   <script src="css/js/dashboard.js"></script>
   <script src="css/js/controller.js"></script>
