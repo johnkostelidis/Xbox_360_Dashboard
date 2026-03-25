@@ -8,22 +8,22 @@
 
   // ─── Sample Games (shown when no backend connected) ────
   const SAMPLE_GAMES = [
-    { id: 'halo3',    title: 'Halo 3',                      color: '#1a3a5c' },
-    { id: 'gow2',     title: 'Gears of War 2',              color: '#8b2500' },
-    { id: 'codmw2',   title: 'Call of Duty: MW2',           color: '#1c1c1c' },
-    { id: 'gtaiv',    title: 'Grand Theft Auto IV',         color: '#2a4a2a' },
-    { id: 'rdr',      title: 'Red Dead Redemption',         color: '#5a3a1a' },
-    { id: 'me2',      title: 'Mass Effect 2',               color: '#0a1a3a' },
-    { id: 'skyrim',   title: 'Skyrim',                      color: '#2a3a4a' },
-    { id: 'fo3',      title: 'Fallout 3',                   color: '#3a3a1a' },
-    { id: 'batman',   title: 'Batman: Arkham City',         color: '#1a1a3a' },
-    { id: 'bl2',      title: 'Borderlands 2',               color: '#5a4a1a' },
-    { id: 'portal2',  title: 'Portal 2',                    color: '#1a2a3a' },
-    { id: 'bioshock', title: 'BioShock Infinite',           color: '#1a2a4a' },
-    { id: 'acii',     title: "Assassin's Creed II",         color: '#2a1a3a' },
-    { id: 'minecraft',title: 'Minecraft',                   color: '#3a5a2a' },
-    { id: 'l4d2',     title: 'Left 4 Dead 2',               color: '#4a1a1a' },
-    { id: 'mgsv',     title: 'Metal Gear Solid V',          color: '#1a1a2a' },
+    { id: 'halo3',    title: 'Halo 3',                      color: '#1a3a5c', coverUrl: '../../../game_pics/halo3.jpg' },
+    { id: 'gow2',     title: 'Gears of War 2',              color: '#8b2500', coverUrl: '../../../game_pics/gearsofwar2.jpg' },
+    { id: 'codmw2',   title: 'Call of Duty: MW2',           color: '#1c1c1c', coverUrl: '../../../game_pics/callofdutymw2.png' },
+    { id: 'gtaiv',    title: 'Grand Theft Auto IV',         color: '#2a4a2a', coverUrl: '../../../game_pics/gtaiv.jpg' },
+    { id: 'rdr',      title: 'Red Dead Redemption',         color: '#5a3a1a', coverUrl: '../../../game_pics/rdr.jpg' },
+    { id: 'me2',      title: 'Mass Effect 2',               color: '#0a1a3a', coverUrl: '../../../game_pics/masseffect.png' },
+    { id: 'skyrim',   title: 'Skyrim',                      color: '#2a3a4a', coverUrl: '../../../game_pics/skyrim.png' },
+    { id: 'fo3',      title: 'Fallout 3',                   color: '#3a3a1a', coverUrl: '../../../game_pics/fallout.png' },
+    { id: 'batman',   title: 'Batman: Arkham City',         color: '#1a1a3a', coverUrl: '../../../game_pics/batman.jpg' },
+    { id: 'bl2',      title: 'Borderlands 2',               color: '#5a4a1a', coverUrl: '../../../game_pics/borderlands2.png' },
+    { id: 'portal2',  title: 'Portal 2',                    color: '#1a2a3a', coverUrl: '../../../game_pics/portal2.jpg' },
+    { id: 'bioshock', title: 'BioShock Infinite',           color: '#1a2a4a', coverUrl: '../../../game_pics/bioshok.jpg' },
+    { id: 'acii',     title: "Assassin's Creed II",         color: '#2a1a3a', coverUrl: '../../../game_pics/asssasinscreed3.jpg' },
+    { id: 'minecraft',title: 'Minecraft',                   color: '#3a5a2a', coverUrl: '../../../game_pics/minecraft.webp' },
+    { id: 'l4d2',     title: 'Left 4 Dead 2',               color: '#4a1a1a', coverUrl: '../../../game_pics/leftfordead2.jpg' },
+    { id: 'mgsv',     title: 'Metal Gear Solid V',          color: '#1a1a2a', coverUrl: '../../../game_pics/metalgearsolid5.png' },
   ];
 
   // ─── Settings sub-panel data ───────────────────
@@ -381,6 +381,9 @@
       case 'myApps':
         openMyApps();
         break;
+      case 'myGames':
+        openMyGames();
+        break;
       case 'appsMarketplace':
         openApp('Xbox Marketplace', 'https://marketplace.xbox.com');
         break;
@@ -570,6 +573,10 @@
 
   // ─── Content back hook (called by controller goBack) ──
   window.handleContentBack = function () {
+    if (window.isMyGamesOpen) {
+      closeMyGames();
+      return true;
+    }
     if (window.isMyAppsOpen) {
       closeMyApps();
       return true;
@@ -581,6 +588,180 @@
     }
     return false;
   };
+
+  // ─── My Games Container ─────────────────────────
+  const MG_TILE_W  = 140;
+  const MG_GAP     = 16;
+  const MG_STRIDE  = MG_TILE_W + MG_GAP;
+
+  let mgGames      = [];
+  let mgSelectedIdx = 0;
+  const MG_SHOW_LABELS = ['All Games', 'Recently Played', 'Downloaded'];
+  let mgShowIdx    = 0;
+
+  const mgSndEnter  = new Audio('../../../sounds/enter.mp3');
+  const mgSndSelect = new Audio('../../../sounds/inside_container_selection.mp3');
+  const mgSndBetween = new Audio('../../../sounds/between_containers.mp3');
+  mgSndEnter.volume = mgSndSelect.volume = mgSndBetween.volume = 0.8;
+
+  function openMyGames() {
+    const overlay = document.getElementById('myGamesOverlay');
+    if (!overlay || window.isMyGamesOpen) return;
+    window.isMyGamesOpen = true;
+    overlay.hidden = false;
+    mgSndEnter.currentTime = 0;
+    mgSndEnter.play().catch(() => {});
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      overlay.classList.add('mygames-is-loading');
+    }));
+    setTimeout(() => {
+      const content = document.getElementById('myGamesContent');
+      const loading = document.getElementById('myGamesLoading');
+      if (!content) return;
+      mgGames = SAMPLE_GAMES.slice();
+      mgSelectedIdx = 0;
+      mgRenderCarousel();
+      content.hidden = false;
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        content.classList.add('mygames-content-visible');
+        if (loading) { loading.style.pointerEvents = 'none'; loading.style.opacity = '0'; }
+        // Now the tiles are laid out — getBCR returns real positions
+        mgUpdateSelection(false);
+      }));
+    }, 1400);
+  }
+
+  function closeMyGames() {
+    const overlay = document.getElementById('myGamesOverlay');
+    const content = document.getElementById('myGamesContent');
+    const loading = document.getElementById('myGamesLoading');
+    if (!overlay || !window.isMyGamesOpen) return;
+    if (content) content.classList.remove('mygames-content-visible');
+    overlay.classList.remove('mygames-is-loading');
+    setTimeout(() => {
+      overlay.hidden = true;
+      window.isMyGamesOpen = false;
+      if (content) content.hidden = true;
+      if (loading) { loading.style.pointerEvents = ''; loading.style.opacity = ''; }
+      mgSelectedIdx = 0;
+      const tile = document.querySelector('[data-action="myGames"]');
+      if (tile) setTimeout(() => tile.focus(), 80);
+      setTimeout(() => { if (window.rebuildFocusables) window.rebuildFocusables(); }, 120);
+    }, 370);
+  }
+  window.closeMyGames = closeMyGames;
+
+  function mgRenderCarousel() {
+    const rail  = document.getElementById('myGamesRail');
+    const count = document.getElementById('myGamesCount');
+    if (!rail) return;
+    rail.innerHTML = '';
+    mgGames.forEach((game, i) => {
+      const tile = document.createElement('div');
+      tile.className = 'mygames-tile mygames-tile-entering';
+      tile.tabIndex  = 0;
+      tile.dataset.mgIdx = i;
+      tile.style.animationDelay = `${i * 0.04}s`;
+      const letter = game.title.slice(0, 2).toUpperCase();
+      tile.innerHTML = `
+        <div class="mygames-tile-cover" style="background:${game.color || '#2a2a2a'}">
+          ${game.coverUrl
+            ? `<img src="${game.coverUrl}" alt="${game.title}">`
+            : `<div class="mygames-tile-cover-letter">${letter}</div>`}
+        </div>
+        <div class="mygames-tile-title">${game.title}</div>
+      `;
+      tile.addEventListener('animationend', () => tile.classList.remove('mygames-tile-entering'), { once: true });
+      tile.addEventListener('click', () => {
+        mgSetSelected(i);
+        launchGame(game.id, game.title);
+      });
+      rail.appendChild(tile);
+    });
+    if (count) count.textContent = mgGames.length > 0 ? `1 of ${mgGames.length}` : '0 games';
+    const infoEl = document.getElementById('myGamesSelectedTitle');
+    if (infoEl && mgGames[0]) infoEl.textContent = mgGames[0].title;
+    // mgUpdateSelection (centering) is called after content becomes visible (needs real getBCR)
+  }
+
+  function mgSetSelected(idx) {
+    if (idx < 0 || idx >= mgGames.length) return;
+    mgSelectedIdx = idx;
+    mgSndSelect.currentTime = 0;
+    mgSndSelect.play().catch(() => {});
+    mgUpdateSelection(true);
+  }
+
+  function mgUpdateSelection(animate) {
+    const rail   = document.getElementById('myGamesRail');
+    const count  = document.getElementById('myGamesCount');
+    const infoEl = document.getElementById('myGamesSelectedTitle');
+    if (!rail) return;
+
+    const tiles = Array.from(rail.querySelectorAll('.mygames-tile'));
+    tiles.forEach((t, i) => t.classList.toggle('focused', i === mgSelectedIdx));
+
+    const selectedTile = tiles[mgSelectedIdx];
+    if (selectedTile) {
+      // Read the tile's ACTUAL rendered centre, then compute the delta needed
+      // to bring it to the horizontal midpoint of the viewport.
+      const rect      = selectedTile.getBoundingClientRect();
+      const tileMidX  = rect.left + rect.width / 2;
+      const targetX   = window.innerWidth / 2;
+      const delta     = targetX - tileMidX;
+
+      // Add delta to whatever translateX is already applied on the rail.
+      const raw       = window.getComputedStyle(rail).transform;
+      const currentTX = (raw === 'none') ? 0 : new DOMMatrix(raw).m41;
+      const newTX     = Math.round(currentTX + delta);
+
+      if (!animate) {
+        rail.style.transition = 'none';
+        rail.style.transform  = `translateX(${newTX}px)`;
+        void rail.offsetWidth;
+        rail.style.transition = '';
+      } else {
+        rail.style.transform = `translateX(${newTX}px)`;
+      }
+    }
+
+    if (count && mgGames.length > 0) {
+      count.textContent = `${mgSelectedIdx + 1} of ${mgGames.length}`;
+    }
+    if (infoEl && mgGames[mgSelectedIdx]) {
+      infoEl.textContent = mgGames[mgSelectedIdx].title;
+    }
+  }
+
+  window.myGamesMove = function (dir) {
+    if (dir === 'left') {
+      if (mgSelectedIdx > 0) mgSetSelected(mgSelectedIdx - 1);
+    } else if (dir === 'right') {
+      if (mgSelectedIdx < mgGames.length - 1) mgSetSelected(mgSelectedIdx + 1);
+    }
+    // up/down: no action in the flat carousel
+  };
+
+  window.myGamesPageLeft  = function () {
+    mgSetSelected(Math.max(0, mgSelectedIdx - 5));
+    mgSndBetween.currentTime = 0;
+    mgSndBetween.play().catch(() => {});
+  };
+  window.myGamesPageRight = function () {
+    mgSetSelected(Math.min(mgGames.length - 1, mgSelectedIdx + 5));
+    mgSndBetween.currentTime = 0;
+    mgSndBetween.play().catch(() => {});
+  };
+  window.myGamesShowFilter = function () {
+    mgShowIdx = (mgShowIdx + 1) % MG_SHOW_LABELS.length;
+    const btn = document.getElementById('myGamesShowBtn');
+    if (btn) btn.textContent = MG_SHOW_LABELS[mgShowIdx];
+    showToast(MG_SHOW_LABELS[mgShowIdx]);
+  };
+
+  const mgShowBtn = document.getElementById('myGamesShowBtn');
+  if (mgShowBtn) mgShowBtn.addEventListener('click', () => window.myGamesShowFilter());
+
 
   // ─── My Apps Container ──────────────────────────
   const MA_TABS = ['video-music', 'social', 'coming-soon-1'];

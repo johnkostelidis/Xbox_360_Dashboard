@@ -29,9 +29,7 @@ function createWindow() {
     if (input.key === 'F11') {
       mainWindow.setFullScreen(!mainWindow.isFullScreen());
     }
-    if (input.key === 'Escape' && mainWindow.isFullScreen()) {
-      mainWindow.setFullScreen(false);
-    }
+    // Escape is handled by the renderer for navigation — do not exit fullscreen
   });
 
   if (process.argv.includes('--dev')) {

@@ -971,6 +971,52 @@
     </div><!-- /myAppsContent -->
   </div><!-- /myAppsOverlay -->
 
+  <!-- MY GAMES OVERLAY -->
+  <div id="myGamesOverlay" class="mygames-overlay" hidden>
+
+    <!-- Loading phase: dark screen + spinner -->
+    <div class="mygames-loading" id="myGamesLoading">
+      <div class="mygames-spinner"></div>
+      <div class="mygames-loading-hint">
+        <span class="ctrl-btn ctrl-b">B</span> Back
+      </div>
+    </div>
+
+    <!-- Content phase (shown after loading) -->
+    <div class="mygames-content" id="myGamesContent" hidden>
+
+      <!-- Top-left: Show filter button -->
+      <div class="mygames-show-btn" id="myGamesShowBtn">Show</div>
+
+      <!-- Top-right: label + X of Y count -->
+      <div class="mygames-header-area">
+        <div class="mygames-label">my games</div>
+        <div class="mygames-count" id="myGamesCount">0 of 0</div>
+      </div>
+
+      <!-- Horizontal carousel -->
+      <div class="mygames-carousel-wrap">
+        <div class="mygames-rail" id="myGamesRail">
+          <!-- tiles injected by JS -->
+        </div>
+      </div>
+
+      <!-- Selected game title below carousel -->
+      <div class="mygames-selected-info">
+        <div class="mygames-selected-title" id="myGamesSelectedTitle"></div>
+      </div>
+
+      <!-- Bottom hint bar -->
+      <div class="mygames-hints">
+        <span class="mygames-hint"><span class="ctrl-btn ctrl-a">A</span>Select</span>
+        <span class="mygames-hint"><span class="ctrl-btn ctrl-b">B</span>Back</span>
+        <span class="mygames-hint"><span class="ctrl-btn ctrl-x">X</span>Launch</span>
+        <span class="mygames-hint"><span class="ctrl-btn ctrl-y">Y</span>Show</span>
+      </div>
+
+    </div><!-- /myGamesContent -->
+  </div><!-- /myGamesOverlay -->
+
   <script src="css/js/dashboard.js"></script>
   <script src="css/js/controller.js"></script>
 </body>

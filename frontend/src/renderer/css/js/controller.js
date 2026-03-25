@@ -94,7 +94,7 @@
 
   // ─── Content container ─────────────────────────
   function rebuildFocusables() {
-    if (window.isMyAppsOpen) return;
+    if (window.isMyAppsOpen || window.isMyGamesOpen) return;
     focusables = Array.from(
       document.querySelectorAll('.tab-panel.active .focusable')
     ).filter(el => {
@@ -171,6 +171,7 @@
 
   // ─── Move — dispatches by active container ─────
   function move(dir) {
+    if (window.isMyGamesOpen && window.myGamesMove) { window.myGamesMove(dir); return; }
     if (window.isMyAppsOpen && window.myAppsMove) { window.myAppsMove(dir); return; }
     if (zone === 'nav') {
       const idx   = activeNavIndex();
@@ -197,6 +198,11 @@
   }
 
   function activate() {
+    if (window.isMyGamesOpen) {
+      const focused = document.querySelector('.mygames-tile.focused');
+      if (focused) { sndEnter.currentTime = 0; sndEnter.play().catch(() => {}); focused.click(); }
+      return;
+    }
     if (window.isMyAppsOpen) {
       const focused = document.querySelector('.myapps-panel.active .focusable.focused');
       if (focused) { sndEnter.currentTime = 0; sndEnter.play().catch(() => {}); focused.click(); }
@@ -220,6 +226,10 @@
     sndBack.play().catch(() => {});
     if (window.isAppOpen && window.closeApp) {
       window.closeApp();
+      return;
+    }
+    if (window.isMyGamesOpen && window.closeMyGames) {
+      window.closeMyGames();
       return;
     }
     if (window.isMyAppsOpen && window.closeMyApps) {
@@ -315,12 +325,17 @@
       case BTN.DPAD_R:  move('right');      break;
       case BTN.A:       activate();         break;
       case BTN.RB:
+        if (window.isMyGamesOpen && window.myGamesPageRight) { window.myGamesPageRight(); break; }
         if (window.isMyAppsOpen && window.myAppsTabRight) { window.myAppsTabRight(); break; }
         cycleTabRight();
         break;
       case BTN.LB:
+        if (window.isMyGamesOpen && window.myGamesPageLeft) { window.myGamesPageLeft(); break; }
         if (window.isMyAppsOpen && window.myAppsTabLeft) { window.myAppsTabLeft(); break; }
         cycleTabLeft();
+        break;
+      case BTN.Y:
+        if (window.isMyGamesOpen && window.myGamesShowFilter) { window.myGamesShowFilter(); break; }
         break;
       case BTN.START:   activate();         break;
     }
